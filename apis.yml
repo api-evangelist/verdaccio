@@ -1,0 +1,77 @@
+aid: verdaccio
+name: Verdaccio
+description: Verdaccio is an open-source, lightweight private npm proxy registry built in Node.js that enables organizations to host, cache, and manage packages privately. It implements the CommonJS Compliant Package Registry specification and provides a REST API for publishing, searching, and managing npm packages in self-hosted or cloud-deployed environments. Verdaccio supports JWT and Basic Auth token authentication, rate limiting, pluggable storage backends, and seamless proxying of upstream registries such as npmjs.org.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/verdaccio/refs/heads/main/apis.yml
+created: 2026-06-13
+modified: 2026-06-13
+specificationVersion: '0.19'
+tags:
+  - npm
+  - registry
+  - package-manager
+  - private-registry
+  - proxy
+  - nodejs
+  - open-source
+  - self-hosted
+  - yarn
+  - pnpm
+  - docker
+  - kubernetes
+apis:
+  - aid: verdaccio:verdaccio-npm-registry-api
+    name: Verdaccio npm Registry API
+    description: The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
+    humanURL: https://www.verdaccio.org/docs/
+    baseURL: http://localhost:4873
+    tags:
+      - npm
+      - packages
+      - registry
+      - publish
+      - search
+      - proxy
+    properties:
+      - type: Documentation
+        url: https://www.verdaccio.org/docs/
+      - type: Authentication
+        url: https://www.verdaccio.org/docs/authentication/
+      - type: Configuration
+        url: https://www.verdaccio.org/docs/configuration/
+      - type: GitHubRepository
+        url: https://github.com/verdaccio/verdaccio
+      - type: Docker
+        url: https://hub.docker.com/r/verdaccio/verdaccio
+      - type: HelmChart
+        url: https://charts.verdaccio.org
+    contact:
+      - FN: Verdaccio Community
+        url: https://discord.gg/7qWJxBf
+common:
+  - type: Website
+    url: https://www.verdaccio.org/
+  - type: Documentation
+    url: https://www.verdaccio.org/docs/
+  - type: GitHubOrg
+    url: https://github.com/verdaccio
+  - type: Blog
+    url: https://www.verdaccio.org/blog/
+  - type: Discord
+    url: https://discord.gg/7qWJxBf
+  - type: Bluesky
+    url: https://bsky.app/profile/verdaccio.org
+  - type: Docker
+    url: https://hub.docker.com/r/verdaccio/verdaccio
+  - type: Sponsorship
+    url: https://opencollective.com/verdaccio
+  - type: Plans
+    url: plans/verdaccio-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/verdaccio-rate-limits.yml
+  - type: FinOps
+    url: finops/verdaccio-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

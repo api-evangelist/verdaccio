@@ -1,0 +1,62 @@
+name: Verdaccio FinOps
+description: Verdaccio is open-source software with no licensing cost. All FinOps considerations relate to the infrastructure required to self-host it. Cost optimization focuses on right-sizing compute and storage, leveraging container orchestration for efficient resource use, and measuring the value of reduced upstream bandwidth through caching. This document applies the FinOps Framework 1.0 FOCUS-aligned principles to self-hosted Verdaccio deployments.
+specificationVersion: '1.0'
+framework: FinOps Framework 1.0 (FOCUS-aligned)
+domains:
+  - name: Understand Usage & Cost
+    description: Measure the infrastructure resources consumed by a Verdaccio deployment to understand total cost of ownership.
+    activities:
+      - name: Compute Cost Tracking
+        description: Track CPU and memory usage of the Verdaccio Node.js process. Verdaccio is lightweight and typically runs on a single vCPU with 256–512 MB RAM for small teams.
+        metrics:
+          - CPU utilization (%)
+          - Memory RSS (MB)
+          - HTTP request throughput (req/s)
+      - name: Storage Cost Tracking
+        description: Monitor disk consumption for cached packages and private package tarballs. Storage grows as new packages are published or proxied from upstream registries.
+        metrics:
+          - Storage used (GB)
+          - Storage growth rate (GB/month)
+          - Number of cached packages
+      - name: Bandwidth Cost Tracking
+        description: Measure inbound and outbound network traffic. Verdaccio caching reduces repeated upstream downloads, cutting bandwidth costs from cloud egress fees.
+        metrics:
+          - Inbound bandwidth (GB/month)
+          - Upstream registry requests saved by cache (%)
+          - Outbound bandwidth to developers (GB/month)
+  - name: Optimize Usage & Cost
+    description: Apply best practices to reduce infrastructure spend while maintaining registry reliability.
+    activities:
+      - name: Right-Size Compute
+        description: Start with a small instance (e.g., 1 vCPU / 512 MB RAM) and scale only when metrics show sustained high utilization. Verdaccio's lightweight design means most teams never need more than 1–2 vCPUs.
+      - name: Leverage Caching
+        description: Configure uplink cache settings to maximize package caching and minimize repeated upstream registry calls, reducing both latency and egress costs in cloud environments.
+        configurationKey: uplinks[].cache
+      - name: Storage Cleanup
+        description: Periodically prune old package versions from storage using npm unpublish or storage management plugins to control storage costs.
+      - name: Container Efficiency
+        description: Use the official Verdaccio Docker image and Kubernetes Helm chart with resource requests and limits set to avoid over-provisioning cluster nodes.
+  - name: Quantify Business Value
+    description: Articulate the cost savings and value Verdaccio delivers compared to commercial alternatives.
+    activities:
+      - name: Compare vs Commercial Alternatives
+        description: Compare self-hosted Verdaccio TCO against commercial private registry services such as Artifactory, GitHub Packages, or npm Pro/Teams. Verdaccio eliminates per-user or per-package licensing fees.
+        benchmarks:
+          - Artifactory Pro: ~$98/month (cloud) for small teams
+          - npm Teams: $7/user/month
+          - Verdaccio (self-hosted on $6/month VPS): ~$6–$20/month total infrastructure cost
+      - name: Bandwidth Savings
+        description: Calculate egress cost savings from upstream caching. In cloud environments with metered egress (AWS, GCP, Azure), caching popular packages at the registry level can reduce bandwidth bills significantly for large teams.
+      - name: Developer Productivity
+        description: Measure install time improvements for teams using Verdaccio as a local network cache proxy vs. pulling from npmjs.org directly.
+  - name: Manage the FinOps Practice
+    description: Operational guidance for sustaining Verdaccio cost awareness over time.
+    activities:
+      - name: Tag Infrastructure Resources
+        description: Apply cost allocation tags (team, environment, project) to the cloud resources hosting Verdaccio (VMs, disks, load balancers) so costs appear in cloud billing dashboards.
+      - name: Monitor with Prometheus/OpenMetrics
+        description: Use the verdaccio-openmetrics plugin to expose Prometheus metrics and track request rates, cache hit ratios, and error rates to correlate usage spikes with cost events.
+        pluginUrl: https://github.com/freight-hub/verdaccio-openmetrics
+      - name: Support Open Source Sustainability
+        description: Organizations saving money by using Verdaccio instead of commercial alternatives are encouraged to donate to the project via OpenCollective to fund continued maintenance.
+        url: https://opencollective.com/verdaccio

@@ -1,0 +1,34 @@
+name: Verdaccio Rate Limits
+description: Verdaccio implements rate limiting via the express-rate-limit middleware. Since Verdaccio is self-hosted open-source software, these defaults are configurable by each operator. The limits described here reflect the out-of-the-box defaults shipped with Verdaccio v5.4.0 and later. There are no externally-imposed cloud-level quotas because Verdaccio has no SaaS offering.
+specificationVersion: '0.1'
+rateLimits:
+  - name: User Auth Endpoint Rate Limit
+    description: Applies to npm token creation, user profile, login (/-/user/org.couchdb.user), and adduser endpoints. Introduced in Verdaccio v5.4.0 to protect against brute-force attacks on authentication endpoints.
+    scope: Per IP address
+    requests: 100
+    window: 15 minutes
+    windowMs: 900000
+    configurationKey: userRateLimit
+    configurationExample: |
+      userRateLimit:
+        windowMs: 900000
+        max: 100
+    endpoints:
+      - /-/user/org.couchdb.user
+      - /-/npm/v1/user
+      - /-/npm/v1/tokens
+      - /-/npm/v1/tokens/token/:tokenKey
+    notes: Configurable via the userRateLimit block in config.yaml. Set max: -1 to disable.
+  - name: Web UI Endpoint Rate Limit
+    description: Rate limiting can also be applied to the web UI endpoints to protect the search and package browsing interfaces. This is an operator-configured option and not enabled by default.
+    scope: Per IP address
+    requests: Operator-defined
+    window: Operator-defined
+    configurationKey: web.rateLimit
+    notes: Enabled and tuned by the operator in the web section of config.yaml.
+  - name: General Package API
+    description: No default rate limit is applied to standard npm registry package endpoints (GET, PUT, DELETE on /:package). Operators may add rate limiting via nginx, a reverse proxy, or custom express middleware.
+    scope: None (operator responsibility)
+    requests: Unlimited by default
+    window: N/A
+    notes: Use a reverse proxy such as nginx or Traefik to enforce rate limits on package download/publish endpoints in production.

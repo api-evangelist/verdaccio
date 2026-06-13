@@ -1,0 +1,28 @@
+name: Verdaccio Plans & Pricing
+description: Verdaccio is a fully open-source project released under the MIT license with no commercial pricing tiers or SaaS offering. The software is free to download, self-host, and use without restriction. Community sustainability is funded through voluntary donations and sponsorships via OpenCollective. Organizations wishing to use Verdaccio in production deploy it on their own infrastructure (bare metal, VMs, Docker, Kubernetes) and bear the cost of that infrastructure rather than paying Verdaccio directly.
+specificationVersion: '0.1'
+plans:
+  - name: Open Source (Self-Hosted)
+    description: Free, MIT-licensed software. Download from npm or pull the official Docker image and run on any infrastructure. No usage limits imposed by Verdaccio itself; limits are governed by the operator's own infrastructure.
+    url: https://www.verdaccio.org/docs/
+    price: Free
+    pricingModel: Free / Open Source
+    rateLimit: Configurable by the operator (default 100 requests per 15 minutes on auth endpoints via express-rate-limit)
+    features:
+      - Private npm package hosting
+      - Proxy and caching of upstream registries (npmjs.org, etc.)
+      - JWT and Basic Auth authentication
+      - Pluggable authentication and storage backends
+      - Web UI for package browsing
+      - Compatible with npm, yarn, and pnpm clients
+      - Docker and Kubernetes (Helm chart) support
+      - Multiple uplink registry chaining
+  - name: Community Sponsor
+    description: Optional financial support for the open-source project via OpenCollective. Provides no additional software features but helps sustain ongoing development and maintenance.
+    url: https://opencollective.com/verdaccio
+    price: Starting at $1/month or one-time contribution
+    pricingModel: Voluntary donation
+    rateLimit: N/A
+    features:
+      - Recognition on the Verdaccio OpenCollective sponsor page
+      - Supporting continued open-source development
