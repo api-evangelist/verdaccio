@@ -1,0 +1,86 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "verdaccio": "https://www.verdaccio.org/vocab#",
+    "npm": "https://www.npmjs.com/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Package": "verdaccio:Package",
+    "PackageVersion": "verdaccio:PackageVersion",
+    "PackageManifest": "verdaccio:PackageManifest",
+    "Tarball": "verdaccio:Tarball",
+    "DistTag": "verdaccio:DistTag",
+    "RegistryToken": "verdaccio:RegistryToken",
+    "UserProfile": "verdaccio:UserProfile",
+    "SearchResult": "verdaccio:SearchResult",
+
+    "name": "schema:name",
+    "description": "schema:description",
+    "version": "verdaccio:version",
+    "versions": "verdaccio:versions",
+    "distTags": {
+      "@id": "verdaccio:distTags",
+      "@container": "@index"
+    },
+    "tarball": {
+      "@id": "verdaccio:tarball",
+      "@type": "@id"
+    },
+    "shasum": "verdaccio:shasum",
+    "integrity": "verdaccio:integrity",
+    "author": "schema:author",
+    "license": "schema:license",
+    "keywords": "schema:keywords",
+    "dependencies": "verdaccio:dependencies",
+    "devDependencies": "verdaccio:devDependencies",
+    "peerDependencies": "verdaccio:peerDependencies",
+    "readme": "verdaccio:readme",
+    "revision": "verdaccio:revision",
+    "publishedAt": {
+      "@id": "schema:datePublished",
+      "@type": "xsd:dateTime"
+    },
+
+    "username": "schema:name",
+    "email": "schema:email",
+    "tfa": "verdaccio:tfaEnabled",
+    "emailVerified": "verdaccio:emailVerified",
+    "cidrWhitelist": "verdaccio:cidrWhitelist",
+    "fullname": "schema:familyName",
+
+    "tokenKey": "verdaccio:tokenKey",
+    "readonly": "verdaccio:readonly",
+    "cidr": "verdaccio:cidr",
+    "tokenCreated": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+
+    "searchQuery": "schema:query",
+    "searchTotal": "verdaccio:searchTotal",
+    "searchTime": {
+      "@id": "verdaccio:searchTime",
+      "@type": "xsd:dateTime"
+    },
+
+    "homepage": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "repository": {
+      "@id": "schema:codeRepository",
+      "@type": "@id"
+    },
+    "bugs": {
+      "@id": "schema:discussionUrl",
+      "@type": "@id"
+    },
+
+    "uplink": "verdaccio:uplink",
+    "storageBackend": "verdaccio:storageBackend",
+    "registryUrl": {
+      "@id": "verdaccio:registryUrl",
+      "@type": "@id"
+    }
+  }
+}

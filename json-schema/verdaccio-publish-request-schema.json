@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/verdaccio/main/json-schema/verdaccio-publish-request-schema.json",
+  "title": "Verdaccio Publish Request",
+  "description": "Request body schema for publishing a new npm package or version to a Verdaccio registry via PUT /:package.",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "Package name used as the CouchDB document ID",
+      "example": "my-package"
+    },
+    "name": {
+      "type": "string",
+      "description": "Package name",
+      "example": "my-package"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short package description"
+    },
+    "dist-tags": {
+      "type": "object",
+      "description": "Distribution tags mapping tag names to versions",
+      "additionalProperties": { "type": "string" },
+      "example": { "latest": "1.0.0" }
+    },
+    "versions": {
+      "type": "object",
+      "description": "Version metadata keyed by version string",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "description": { "type": "string" },
+          "main": { "type": "string" },
+          "scripts": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "keywords": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "author": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" }
+                }
+              }
+            ]
+          },
+          "license": { "type": "string" },
+          "dependencies": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "devDependencies": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "dist": {
+            "type": "object",
+            "properties": {
+              "tarball": { "type": "string", "format": "uri" },
+              "shasum": { "type": "string" },
+              "integrity": { "type": "string" }
+            },
+            "required": ["tarball", "shasum"]
+          }
+        },
+        "required": ["name", "version"]
+      }
+    },
+    "_attachments": {
+      "type": "object",
+      "description": "Tarball attachments keyed by filename (e.g. my-package-1.0.0.tgz)",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "content_type": {
+            "type": "string",
+            "example": "application/octet-stream"
+          },
+          "data": {
+            "type": "string",
+            "description": "Base64-encoded tarball binary"
+          },
+          "length": {
+            "type": "integer",
+            "description": "Byte length of the decoded tarball"
+          }
+        },
+        "required": ["content_type", "data"]
+      }
+    }
+  },
+  "required": ["name", "versions"]
+}

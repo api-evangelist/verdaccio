@@ -1,0 +1,5 @@
+{
+  "password": "s3cr3t",
+  "readonly": false,
+  "cidr_whitelist": []
+}

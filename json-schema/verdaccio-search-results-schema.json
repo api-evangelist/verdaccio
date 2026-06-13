@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/verdaccio/main/json-schema/verdaccio-search-results-schema.json",
+  "title": "Verdaccio Search Results",
+  "description": "Response schema for the Verdaccio npm v1 search endpoint (GET /-/v1/search).",
+  "type": "object",
+  "properties": {
+    "objects": {
+      "type": "array",
+      "description": "List of matching packages",
+      "items": {
+        "type": "object",
+        "properties": {
+          "package": {
+            "type": "object",
+            "description": "Package metadata",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Package name",
+                "example": "lodash"
+              },
+              "version": {
+                "type": "string",
+                "description": "Latest version",
+                "example": "4.17.21"
+              },
+              "description": {
+                "type": "string",
+                "description": "Package description"
+              },
+              "keywords": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date of the latest publish"
+              },
+              "author": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" }
+                }
+              },
+              "links": {
+                "type": "object",
+                "properties": {
+                  "npm": { "type": "string", "format": "uri" },
+                  "homepage": { "type": "string", "format": "uri" },
+                  "repository": { "type": "string", "format": "uri" },
+                  "bugs": { "type": "string", "format": "uri" }
+                }
+              }
+            },
+            "required": ["name", "version"]
+          },
+          "score": {
+            "type": "object",
+            "description": "Relevance scores",
+            "properties": {
+              "final": { "type": "number", "format": "float" },
+              "detail": {
+                "type": "object",
+                "properties": {
+                  "quality": { "type": "number" },
+                  "popularity": { "type": "number" },
+                  "maintenance": { "type": "number" }
+                }
+              }
+            }
+          },
+          "searchScore": {
+            "type": "number",
+            "format": "float",
+            "description": "Raw search relevance score"
+          }
+        },
+        "required": ["package"]
+      }
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total number of results returned (after access-control filtering)",
+      "example": 42
+    },
+    "time": {
+      "type": "string",
+      "description": "UTC timestamp string when the search was executed",
+      "example": "Sun Jul 25 2021 14:09:11 GMT+0000 (Coordinated Universal Time)"
+    }
+  },
+  "required": ["objects", "total", "time"]
+}

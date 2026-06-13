@@ -1,0 +1,1278 @@
+openapi: 3.0.3
+info:
+  title: Verdaccio npm Registry API
+  description: >
+    The Verdaccio npm Registry REST API implements the CommonJS Compliant Package
+    Registry specification, providing endpoints to publish, retrieve, search, and
+    delete npm packages. It supports JWT tokens and Basic Auth for authentication
+    and mirrors the standard npm registry protocol so any npm, yarn, or pnpm
+    client can interact with it without modification.
+  version: 6.0.0
+  contact:
+    name: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+  license:
+    name: MIT
+    url: https://github.com/verdaccio/verdaccio/blob/master/LICENSE
+  x-api-id: verdaccio:verdaccio-npm-registry-api
+servers:
+  - url: http://localhost:4873
+    description: Default local Verdaccio instance
+
+security:
+  - bearerAuth: []
+  - basicAuth: []
+
+tags:
+  - name: packages
+    description: Retrieve package metadata and tarballs
+  - name: publish
+    description: Publish, update, and unpublish packages
+  - name: dist-tags
+    description: Manage dist-tags for packages
+  - name: search
+    description: Search the registry
+  - name: user
+    description: User authentication and management
+  - name: profile
+    description: User profile management
+  - name: tokens
+    description: API token management
+  - name: utility
+    description: Utility endpoints
+
+paths:
+
+  # ── Utility ─────────────────────────────────────────────────────────────────
+
+  /-/ping:
+    get:
+      operationId: ping
+      summary: Ping the registry
+      description: Returns an empty object to confirm the registry is alive. Used by npm clients to check connectivity.
+      tags:
+        - utility
+      security: []
+      responses:
+        '200':
+          description: Registry is reachable
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {}
+
+  /-/whoami:
+    get:
+      operationId: whoami
+      summary: Get current authenticated user name
+      description: Returns the username of the currently authenticated user. Equivalent to `npm whoami`.
+      tags:
+        - user
+      responses:
+        '200':
+          description: Username of the authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhoamiResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ── User / Authentication ────────────────────────────────────────────────────
+
+  /-/user/{org_couchdb_user}:
+    get:
+      operationId: getUser
+      summary: Get user information
+      description: Returns authenticated user information. Used by npm to verify login status.
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/OrgCouchdbUser'
+      responses:
+        '200':
+          description: User information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: addOrLoginUser
+      summary: Add a new user or log in an existing user
+      description: >
+        Creates a new user account or authenticates an existing user. This is the
+        endpoint used by `npm login` / `npm adduser`. Returns a JWT or Basic Auth
+        token on success.
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/OrgCouchdbUser'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+      responses:
+        '201':
+          description: User created or authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Username conflict
+
+  # ── Profile ─────────────────────────────────────────────────────────────────
+
+  /-/npm/v1/user:
+    get:
+      operationId: getProfile
+      summary: Get user profile
+      description: Returns the profile of the currently authenticated user.
+      tags:
+        - profile
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: updateProfile
+      summary: Update user profile (change password)
+      description: >
+        Updates the authenticated user's profile. Currently supports password
+        changes. Two-factor authentication is not supported.
+      tags:
+        - profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdateRequest'
+      responses:
+        '200':
+          description: Updated profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ── Tokens ──────────────────────────────────────────────────────────────────
+
+  /-/npm/v1/tokens:
+    get:
+      operationId: listTokens
+      summary: List API tokens
+      description: Returns all API tokens created by the currently authenticated user.
+      tags:
+        - tokens
+      responses:
+        '200':
+          description: List of tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createToken
+      summary: Create an API token
+      description: >
+        Creates a new API token for the authenticated user. The plain-text token
+        is returned once; subsequent reads return a masked version.
+      tags:
+        - tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreateRequest'
+      responses:
+        '200':
+          description: Newly created token (plain-text, returned once)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObject'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '501':
+          description: Storage backend does not support token persistence
+
+  /-/npm/v1/tokens/token/{tokenKey}:
+    delete:
+      operationId: deleteToken
+      summary: Revoke an API token
+      description: Permanently deletes the specified token so it can no longer be used for authentication.
+      tags:
+        - tokens
+      parameters:
+        - name: tokenKey
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The token key identifier (not the token value itself)
+      responses:
+        '200':
+          description: Token revoked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Search ──────────────────────────────────────────────────────────────────
+
+  /-/v1/search:
+    get:
+      operationId: searchPackages
+      summary: Search packages (v1)
+      description: >
+        Searches the registry using the npm v1 search API. Supports text queries
+        with quality, popularity, and maintenance score weighting.
+      tags:
+        - search
+      security: []
+      parameters:
+        - name: text
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Search query text
+          example: lodash
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+          description: Number of results to return
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: Offset for pagination
+        - name: quality
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+          description: Quality score weight (0–1)
+        - name: popularity
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+          description: Popularity score weight (0–1)
+        - name: maintenance
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+          description: Maintenance score weight (0–1)
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
+
+  # ── Packages ─────────────────────────────────────────────────────────────────
+
+  /{package}:
+    get:
+      operationId: getPackageManifest
+      summary: Get package manifest (all versions)
+      description: >
+        Returns the full package manifest including metadata for all published
+        versions, dist-tags, and distribution information. Supports the abbreviated
+        manifest format via Accept header (`application/vnd.npm.install-v1+json`).
+      tags:
+        - packages
+      parameters:
+        - $ref: '#/components/parameters/PackageName'
+        - name: write
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: When true, returns the manifest for write operations (e.g. unpublish)
+      responses:
+        '200':
+          description: Full package manifest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageManifest'
+            application/vnd.npm.install-v1+json:
+              schema:
+                $ref: '#/components/schemas/AbbreviatedManifest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: publishPackage
+      summary: Publish a new package
+      description: >
+        Publishes a new package or a new version of an existing package. The
+        request body must include the package metadata and an `_attachments`
+        property containing the base64-encoded tarball.
+      tags:
+        - publish
+      parameters:
+        - $ref: '#/components/parameters/PackageName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishRequest'
+      responses:
+        '201':
+          description: Package published successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          description: Package version already exists
+
+  /{package}/{version}:
+    get:
+      operationId: getPackageByVersion
+      summary: Get a specific package version
+      description: Returns the package manifest for a specific version.
+      tags:
+        - packages
+      parameters:
+        - $ref: '#/components/parameters/PackageName'
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Exact version or dist-tag (e.g. `1.0.0`, `latest`)
+          example: 1.0.0
+      responses:
+        '200':
+          description: Package version manifest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionManifest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /{package}/-rev/{revision}:
+    put:
+      operationId: updatePackageRevision
+      summary: Update package at a specific revision
+      description: >
+        Used during unpublish to update the package manifest to a new revision,
+        removing the specified version from metadata.
+      tags:
+        - publish
+      parameters:
+        - $ref: '#/components/parameters/PackageName'
+        - name: revision
+          in: path
+          required: true
+          schema:
+            type: string
+          description: CouchDB-style revision identifier (e.g. `14-abc123`)
+          example: "14-5d500cfce92f90fd"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishRequest'
+      responses:
+        '201':
+          description: Package revision updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /{package}/-/{filename}/-rev/{revision}:
+    delete:
+      operationId: deleteTarball
+      summary: Delete a package tarball
+      description: >
+        Deletes a specific tarball file. Called as the final step of the npm
+        unpublish flow after the package manifest has been updated.
+      tags:
+        - publish
+      parameters:
+        - $ref: '#/components/parameters/PackageName'
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tarball filename (e.g. `package-1.0.0.tgz`)
+          example: "my-package-1.0.0.tgz"
+        - name: revision
+          in: path
+          required: true
+          schema:
+            type: string
+          description: CouchDB-style revision identifier
+          example: "16-e11c8db282b2d992"
+      responses:
+        '201':
+          description: Tarball deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /{package}/-/{filename}:
+    get:
+      operationId: getPackageTarball
+      summary: Download a package tarball
+      description: Streams the binary tarball for the specified package and filename.
+      tags:
+        - packages
+      parameters:
+        - $ref: '#/components/parameters/PackageName'
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tarball filename (e.g. `package-1.0.0.tgz`)
+          example: "my-package-1.0.0.tgz"
+      responses:
+        '200':
+          description: Tarball binary stream
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ── Dist-tags ────────────────────────────────────────────────────────────────
+
+  /-/package/{package}/dist-tags:
+    get:
+      operationId: getDistTags
+      summary: List all dist-tags for a package
+      description: Returns a map of dist-tag names to version strings for the specified package.
+      tags:
+        - dist-tags
+      parameters:
+        - $ref: '#/components/parameters/PackagePathParam'
+      responses:
+        '200':
+          description: Dist-tags map
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistTagsMap'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /-/package/{package}/dist-tags/{tag}:
+    put:
+      operationId: setDistTag
+      summary: Set a dist-tag on a package
+      description: Sets or updates a named dist-tag to point to the specified version string.
+      tags:
+        - dist-tags
+      parameters:
+        - $ref: '#/components/parameters/PackagePathParam'
+        - $ref: '#/components/parameters/TagName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              description: Version string to associate with the tag
+              example: "1.2.0"
+      responses:
+        '201':
+          description: Tag set successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    delete:
+      operationId: deleteDistTag
+      summary: Delete a dist-tag from a package
+      description: Removes a named dist-tag from the package.
+      tags:
+        - dist-tags
+      parameters:
+        - $ref: '#/components/parameters/PackagePathParam'
+        - $ref: '#/components/parameters/TagName'
+      responses:
+        '201':
+          description: Tag removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /{package}/{tag}:
+    put:
+      operationId: setDistTagShort
+      summary: Set a dist-tag (shorthand route)
+      description: Alternative shorthand route for setting a dist-tag, compatible with older npm clients.
+      tags:
+        - dist-tags
+      parameters:
+        - $ref: '#/components/parameters/PackageName'
+        - $ref: '#/components/parameters/TagName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              description: Version string to associate with the tag
+              example: "1.2.0"
+      responses:
+        '201':
+          description: Tag set successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ── Login (webLogin feature flag) ─────────────────────────────────────────────
+
+  /-/v1/login:
+    post:
+      operationId: initiateLogin
+      summary: Initiate web login flow
+      description: >
+        Starts the web-based login flow. Available only when the `webLogin` feature
+        flag is enabled. Returns a login URL and session token.
+      tags:
+        - user
+      security: []
+      responses:
+        '200':
+          description: Login URL and session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginInitiateResponse'
+
+  /-/v1/login_cli/{sessionId}:
+    get:
+      operationId: pollLoginSession
+      summary: Poll web login session status
+      description: Polls the status of a web login session by session ID.
+      tags:
+        - user
+      security: []
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session status
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /-/v1/done:
+    get:
+      operationId: completeLogin
+      summary: Complete web login flow
+      description: Finalizes the web login and issues an authentication token.
+      tags:
+        - user
+      responses:
+        '200':
+          description: Authentication completed
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /-/v1/done/{sessionId}:
+    get:
+      operationId: completeLoginSession
+      summary: Complete web login flow for a specific session
+      description: Finalizes the web login for a specific session ID.
+      tags:
+        - user
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Authentication completed
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token issued by Verdaccio on login
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth with registry username and password
+
+  parameters:
+    PackageName:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
+      example: lodash
+    PackagePathParam:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped)
+      example: lodash
+    OrgCouchdbUser:
+      name: org_couchdb_user
+      in: path
+      required: true
+      schema:
+        type: string
+      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
+      example: "org.couchdb.user:alice"
+    TagName:
+      name: tag
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Dist-tag name (e.g. `latest`, `next`, `beta`)
+      example: latest
+
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Package or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: "package not found"
+      required:
+        - error
+
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          description: Human-readable success message
+          example: "package published"
+      required:
+        - ok
+
+    WhoamiResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of the authenticated user
+          example: alice
+      required:
+        - username
+
+    UserLoginRequest:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: CouchDB user document ID
+          example: "org.couchdb.user:alice"
+        name:
+          type: string
+          description: Username
+          example: alice
+        password:
+          type: string
+          format: password
+          description: Plain-text password
+          example: s3cr3t
+        type:
+          type: string
+          enum: [user]
+          example: user
+        roles:
+          type: array
+          items:
+            type: string
+          example: []
+        date:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00.000Z"
+      required:
+        - name
+        - password
+
+    UserLoginResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          example: "user 'alice' created"
+        token:
+          type: string
+          description: JWT or Basic Auth token to use in subsequent requests
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      required:
+        - ok
+        - token
+
+    UserResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Username
+          example: alice
+        email:
+          type: string
+          format: email
+          description: Email address (may be empty)
+          example: ""
+        ok:
+          oneOf:
+            - type: string
+            - type: boolean
+          description: Authentication status message or boolean
+          example: "you are authenticated as 'alice'"
+
+    Profile:
+      type: object
+      properties:
+        tfa:
+          type: boolean
+          description: Two-factor authentication enabled (always false — not supported)
+          example: false
+        name:
+          type: string
+          description: Username
+          example: alice
+        email:
+          type: string
+          description: Email address (not stored; always empty)
+          example: ""
+        email_verified:
+          type: boolean
+          description: Whether the email has been verified (always false)
+          example: false
+        created:
+          type: string
+          description: Account creation timestamp (not stored; always empty)
+          example: ""
+        updated:
+          type: string
+          description: Account update timestamp (not stored; always empty)
+          example: ""
+        cidr_whitelist:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: CIDR whitelist (not enforced at profile level; always null)
+          example: null
+        fullname:
+          type: string
+          description: Full name (not stored; always empty)
+          example: ""
+
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        password:
+          type: object
+          description: Password change payload
+          properties:
+            old:
+              type: string
+              format: password
+              description: Current password
+            new:
+              type: string
+              format: password
+              description: Desired new password
+
+    TokenObject:
+      type: object
+      properties:
+        token:
+          type: string
+          description: The token value (plain-text on creation; masked on subsequent reads)
+          example: "npm_abc123..."
+        user:
+          type: string
+          description: Username that owns the token
+          example: alice
+        key:
+          type: string
+          description: Unique key identifier for the token
+          example: "a1b2c3d4e5f6789012345678"
+        cidr:
+          type: array
+          items:
+            type: string
+          description: CIDR restrictions for this token
+          example: []
+        cidr_whitelist:
+          type: array
+          items:
+            type: string
+          description: Alias for cidr, used by npm CLI
+          example: []
+        readonly:
+          type: boolean
+          description: Whether the token is read-only
+          example: false
+        created:
+          type: string
+          format: date-time
+          description: ISO 8601 creation timestamp
+          example: "2024-01-15T10:30:00.000Z"
+
+    TokenListResponse:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenObject'
+        urls:
+          type: object
+          properties:
+            next:
+              type: string
+              description: URL for next page (pagination not yet implemented; always empty)
+              example: ""
+
+    TokenCreateRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          description: User password for re-authentication before token creation
+          example: s3cr3t
+        readonly:
+          type: boolean
+          description: Whether the token should be read-only
+          example: false
+        cidr_whitelist:
+          type: array
+          items:
+            type: string
+          description: CIDR ranges to restrict token usage
+          example: []
+      required:
+        - password
+        - readonly
+        - cidr_whitelist
+
+    SearchResultPackage:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Package name
+          example: lodash
+        version:
+          type: string
+          description: Latest published version
+          example: "4.17.21"
+        description:
+          type: string
+          description: Package description
+          example: "Lodash modular utilities."
+        keywords:
+          type: array
+          items:
+            type: string
+          example: ["array", "collection", "object"]
+        date:
+          type: string
+          format: date-time
+          description: Date of last publish
+        author:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+        links:
+          type: object
+          properties:
+            npm:
+              type: string
+            homepage:
+              type: string
+            repository:
+              type: string
+            bugs:
+              type: string
+
+    SearchResultItem:
+      type: object
+      properties:
+        package:
+          $ref: '#/components/schemas/SearchResultPackage'
+        score:
+          type: object
+          properties:
+            final:
+              type: number
+              format: float
+            detail:
+              type: object
+              properties:
+                quality:
+                  type: number
+                  format: float
+                popularity:
+                  type: number
+                  format: float
+                maintenance:
+                  type: number
+                  format: float
+        searchScore:
+          type: number
+          format: float
+
+    SearchResults:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResultItem'
+        total:
+          type: integer
+          description: Total number of results
+          example: 42
+        time:
+          type: string
+          description: UTC timestamp of the search
+          example: "Sun Jul 25 2021 14:09:11 GMT+0000 (Coordinated Universal Time)"
+      required:
+        - objects
+        - total
+        - time
+
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: "1.2.3"
+        next: "2.0.0-beta.1"
+        beta: "2.0.0-beta.1"
+
+    PackageAttachment:
+      type: object
+      properties:
+        content_type:
+          type: string
+          example: "application/octet-stream"
+        data:
+          type: string
+          format: byte
+          description: Base64-encoded tarball content
+        length:
+          type: integer
+          description: Byte length of the unencoded tarball
+
+    PublishRequest:
+      type: object
+      description: Package manifest payload used for publish and revision update operations
+      properties:
+        _id:
+          type: string
+          description: Package name used as document ID
+          example: my-package
+        name:
+          type: string
+          description: Package name
+          example: my-package
+        description:
+          type: string
+          description: Package description
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VersionManifest'
+        _attachments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PackageAttachment'
+          description: Tarball attachments keyed by filename
+      required:
+        - name
+        - versions
+
+    VersionManifest:
+      type: object
+      description: Metadata for a single package version
+      properties:
+        name:
+          type: string
+          example: my-package
+        version:
+          type: string
+          example: "1.0.0"
+        description:
+          type: string
+        main:
+          type: string
+          example: index.js
+        scripts:
+          type: object
+          additionalProperties:
+            type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        author:
+          oneOf:
+            - type: string
+            - type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                url:
+                  type: string
+        license:
+          type: string
+          example: MIT
+        dependencies:
+          type: object
+          additionalProperties:
+            type: string
+        devDependencies:
+          type: object
+          additionalProperties:
+            type: string
+        peerDependencies:
+          type: object
+          additionalProperties:
+            type: string
+        dist:
+          type: object
+          properties:
+            tarball:
+              type: string
+              format: uri
+              description: URL to download this version's tarball
+              example: "http://localhost:4873/my-package/-/my-package-1.0.0.tgz"
+            shasum:
+              type: string
+              description: SHA-1 checksum of the tarball
+              example: "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+            integrity:
+              type: string
+              description: Subresource Integrity hash
+              example: "sha512-abc123=="
+        _id:
+          type: string
+          example: "my-package@1.0.0"
+        _nodeVersion:
+          type: string
+          example: "20.11.0"
+        _npmVersion:
+          type: string
+          example: "10.2.4"
+
+    PackageManifest:
+      type: object
+      description: Full package manifest containing all versions and metadata
+      properties:
+        _id:
+          type: string
+          description: Package name
+          example: lodash
+        name:
+          type: string
+          example: lodash
+        description:
+          type: string
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VersionManifest'
+        time:
+          type: object
+          additionalProperties:
+            type: string
+            format: date-time
+          description: Map of version to publish time
+        readme:
+          type: string
+          description: Package README content
+
+    AbbreviatedManifest:
+      type: object
+      description: Abbreviated package manifest (install-optimised format)
+      properties:
+        name:
+          type: string
+          example: lodash
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            type: object
+            description: Abbreviated version entry with only fields needed by the installer
+        modified:
+          type: string
+          format: date-time
+
+    LoginInitiateResponse:
+      type: object
+      properties:
+        loginUrl:
+          type: string
+          format: uri
+          description: URL the user should open in a browser to authenticate
+          example: "http://localhost:4873/-/v1/login_cli/abc123"
+        doneUrl:
+          type: string
+          format: uri
+          description: URL to poll for login completion
+          example: "http://localhost:4873/-/v1/done/abc123"

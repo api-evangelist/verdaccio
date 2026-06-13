@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/verdaccio/main/json-schema/verdaccio-package-manifest-schema.json",
+  "title": "Verdaccio Package Manifest",
+  "description": "Full package manifest returned by the Verdaccio npm registry for a given package name, including all versions and dist-tags.",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "Package name used as the CouchDB document ID",
+      "example": "lodash"
+    },
+    "name": {
+      "type": "string",
+      "description": "Package name",
+      "example": "lodash"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the package"
+    },
+    "dist-tags": {
+      "type": "object",
+      "description": "Map of distribution tag names to version strings",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "example": {
+        "latest": "4.17.21",
+        "next": "5.0.0-alpha.1"
+      }
+    },
+    "versions": {
+      "type": "object",
+      "description": "Map of version strings to version manifests",
+      "additionalProperties": {
+        "$ref": "#/definitions/VersionManifest"
+      }
+    },
+    "time": {
+      "type": "object",
+      "description": "Map of version strings to ISO 8601 publish timestamps",
+      "additionalProperties": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "readme": {
+      "type": "string",
+      "description": "README content for the package"
+    },
+    "_rev": {
+      "type": "string",
+      "description": "CouchDB-style document revision",
+      "example": "14-5d500cfce92f90fd"
+    }
+  },
+  "required": ["name", "versions", "dist-tags"],
+  "definitions": {
+    "VersionManifest": {
+      "type": "object",
+      "description": "Metadata for a single published version of a package",
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "description": { "type": "string" },
+        "main": { "type": "string" },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "author": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "url": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "license": { "type": "string" },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "devDependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "peerDependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "dist": {
+          "type": "object",
+          "properties": {
+            "tarball": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to download the tarball"
+            },
+            "shasum": {
+              "type": "string",
+              "description": "SHA-1 checksum of the tarball"
+            },
+            "integrity": {
+              "type": "string",
+              "description": "Subresource Integrity (SRI) hash"
+            }
+          },
+          "required": ["tarball", "shasum"]
+        },
+        "_id": { "type": "string" },
+        "_nodeVersion": { "type": "string" },
+        "_npmVersion": { "type": "string" }
+      },
+      "required": ["name", "version", "dist"]
+    }
+  }
+}

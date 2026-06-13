@@ -1,0 +1,42 @@
+{
+  "_id": "my-package",
+  "name": "my-package",
+  "description": "A sample package published to a Verdaccio private registry",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": {
+    "1.0.0": {
+      "name": "my-package",
+      "version": "1.0.0",
+      "description": "A sample package published to a Verdaccio private registry",
+      "main": "index.js",
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "keywords": ["sample", "verdaccio", "npm"],
+      "author": {
+        "name": "Alice Dev",
+        "email": "alice@example.com"
+      },
+      "license": "MIT",
+      "dependencies": {},
+      "devDependencies": {},
+      "dist": {
+        "tarball": "http://localhost:4873/my-package/-/my-package-1.0.0.tgz",
+        "shasum": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+        "integrity": "sha512-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU2fxBMnXkH0bg7F8lBp9lkNd+L5u6b9f3tqr0000=="
+      },
+      "_id": "my-package@1.0.0",
+      "_nodeVersion": "20.11.0",
+      "_npmVersion": "10.2.4"
+    }
+  },
+  "_attachments": {
+    "my-package-1.0.0.tgz": {
+      "content_type": "application/octet-stream",
+      "data": "H4sIAAAAAAAAA+2Ty2rDMBBF9/oKoXUr2ZIt2V9S...",
+      "length": 512
+    }
+  }
+}

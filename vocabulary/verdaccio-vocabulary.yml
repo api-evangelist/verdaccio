@@ -1,0 +1,177 @@
+vocabulary:
+  name: Verdaccio npm Registry API Vocabulary
+  description: Domain terms and concepts used across the Verdaccio npm registry API.
+  source: https://www.verdaccio.org/docs/
+  terms:
+
+    - term: package
+      definition: >
+        A named, versioned unit of software published to the registry. Identified by
+        a name (e.g. `lodash`) or a scoped name (e.g. `@scope/package`). A package
+        contains one or more versions and a set of dist-tags.
+      related:
+        - tarball
+        - manifest
+        - version
+        - dist-tags
+
+    - term: tarball
+      definition: >
+        A gzipped tar archive (.tgz) containing the source files for a single package
+        version. The tarball is the actual distributable artifact downloaded by npm,
+        yarn, or pnpm during package installation.
+      related:
+        - package
+        - shasum
+        - integrity
+
+    - term: manifest
+      definition: >
+        The JSON document returned by the registry describing a package, including
+        all published versions, dist-tags, and metadata. Two forms exist: the full
+        manifest (all fields) and the abbreviated manifest (install-optimised fields
+        only, served when the Accept header is `application/vnd.npm.install-v1+json`).
+      related:
+        - package
+        - abbreviated-manifest
+        - dist-tags
+
+    - term: abbreviated-manifest
+      definition: >
+        A compact form of the package manifest containing only the fields required
+        by the package installer (tarball URLs, checksums, engines, scripts, etc.).
+        Requested via the Accept header `application/vnd.npm.install-v1+json`.
+      related:
+        - manifest
+
+    - term: dist-tag
+      definition: >
+        A named pointer to a specific version of a package (e.g. `latest`, `next`,
+        `beta`). Clients resolve dist-tags to concrete version numbers when installing
+        a package without a version specifier.
+      related:
+        - package
+        - version
+
+    - term: revision
+      definition: >
+        A CouchDB-style document revision identifier (e.g. `14-5d500cfce92f90fd`)
+        used to ensure consistency during package updates and unpublish operations.
+        Verdaccio manages revisions internally.
+      related:
+        - manifest
+        - unpublish
+
+    - term: publish
+      definition: >
+        The act of uploading a new package or a new version of an existing package
+        to the registry via HTTP PUT. The payload includes version metadata and the
+        base64-encoded tarball.
+      related:
+        - tarball
+        - package
+        - unpublish
+
+    - term: unpublish
+      definition: >
+        The act of removing a specific version or an entire package from the registry.
+        Involves multiple HTTP requests: fetching the current manifest, updating it
+        (PUT with a revision), and deleting the tarball (DELETE).
+      related:
+        - publish
+        - revision
+        - tarball
+
+    - term: proxy
+      definition: >
+        Verdaccio's capability to transparently forward package requests to one or
+        more upstream registries (e.g. npmjs.org) when a package is not found in
+        local storage. Proxied packages are cached locally on first access.
+      related:
+        - uplink
+        - cache
+
+    - term: uplink
+      definition: >
+        A configured upstream registry to which Verdaccio proxies package requests
+        when the package is not available locally. Defined in verdaccio.yaml under
+        the `uplinks` key.
+      related:
+        - proxy
+
+    - term: scope
+      definition: >
+        An optional namespace prefix for a package name, written as `@scope/package`.
+        Scoped packages allow organisations to publish packages under a shared
+        namespace. The forward slash in a scoped name is URL-encoded as `%2F` in
+        request paths.
+      related:
+        - package
+
+    - term: shasum
+      definition: >
+        The SHA-1 hex digest of a package tarball used to verify download integrity.
+        Stored in the `dist.shasum` field of the version manifest.
+      related:
+        - tarball
+        - integrity
+
+    - term: integrity
+      definition: >
+        A Subresource Integrity (SRI) hash (sha512) of the package tarball, stored
+        in `dist.integrity`. More secure than shasum and preferred by modern clients.
+      related:
+        - tarball
+        - shasum
+
+    - term: jwt-token
+      definition: >
+        A JSON Web Token issued by Verdaccio upon successful login. Passed as a
+        Bearer token in the Authorization header to authenticate API requests.
+        Verdaccio generates tokens using the HS256 algorithm with a server-side
+        secret.
+      related:
+        - authentication
+        - basic-auth
+
+    - term: basic-auth
+      definition: >
+        HTTP Basic Authentication where the username and password are Base64-encoded
+        in the Authorization header. Supported alongside JWT tokens.
+      related:
+        - jwt-token
+        - authentication
+
+    - term: authentication
+      definition: >
+        The process of verifying the identity of a client. Verdaccio supports JWT
+        Bearer tokens and HTTP Basic Auth. Unauthenticated clients may access public
+        packages depending on the access configuration.
+      related:
+        - jwt-token
+        - basic-auth
+
+    - term: rate-limit
+      definition: >
+        Optional request throttling applied to user and token endpoints to prevent
+        brute-force attacks. Configured via the `userRateLimit` key in verdaccio.yaml.
+      related:
+        - authentication
+
+    - term: storage-backend
+      definition: >
+        The pluggable storage layer where Verdaccio persists package tarballs and
+        metadata. The default implementation uses the local filesystem; plugins exist
+        for AWS S3, Google Cloud Storage, Azure Blob Storage, and others.
+      related:
+        - package
+
+    - term: web-login
+      definition: >
+        An optional browser-based login flow enabled by the `flags.webLogin`
+        configuration key. Exposes additional endpoints (`/-/v1/login`,
+        `/-/v1/login_cli/:sessionId`, `/-/v1/done/:sessionId`) for OAuth-style
+        authentication.
+      related:
+        - jwt-token
+        - authentication
