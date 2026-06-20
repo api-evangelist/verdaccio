@@ -2,7 +2,7 @@ aid: verdaccio
 name: Verdaccio
 description: Verdaccio is an open-source, lightweight private npm proxy registry built in Node.js that enables organizations to host, cache, and manage packages privately. It implements the CommonJS Compliant Package Registry specification and provides a REST API for publishing, searching, and managing npm packages in self-hosted or cloud-deployed environments. Verdaccio supports JWT and Basic Auth token authentication, rate limiting, pluggable storage backends, and seamless proxying of upstream registries such as npmjs.org.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/verdaccio/refs/heads/main/apis.yml
 created: 2026-06-13
 modified: 2026-06-13
