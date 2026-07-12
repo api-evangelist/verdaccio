@@ -50,6 +50,10 @@ apis:
       - FN: Verdaccio Community
         url: https://discord.gg/7qWJxBf
 common:
+  - type: DomainSecurity
+    url: security/verdaccio-domain-security.yml
+  - type: Authentication
+    url: authentication/verdaccio-authentication.yml
   - type: Website
     url: https://www.verdaccio.org/
   - type: Documentation

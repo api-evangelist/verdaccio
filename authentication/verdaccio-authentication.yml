@@ -1,0 +1,20 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/verdaccio-npm-registry-api-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: JWT token issued by Verdaccio on login
+  sources:
+  - openapi/verdaccio-npm-registry-api-openapi.yml
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic Auth with registry username and password
+  sources:
+  - openapi/verdaccio-npm-registry-api-openapi.yml
