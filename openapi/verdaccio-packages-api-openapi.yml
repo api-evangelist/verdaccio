@@ -1,0 +1,281 @@
+openapi: 3.0.3
+info:
+  title: Verdaccio npm Registry dist-tags packages API
+  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
+
+    '
+  version: 6.0.0
+  contact:
+    name: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+  license:
+    name: MIT
+    url: https://github.com/verdaccio/verdaccio/blob/master/LICENSE
+  x-api-id: verdaccio:verdaccio-npm-registry-api
+servers:
+- url: http://localhost:4873
+  description: Default local Verdaccio instance
+security:
+- bearerAuth: []
+- basicAuth: []
+tags:
+- name: packages
+  description: Retrieve package metadata and tarballs
+paths:
+  /{package}:
+    get:
+      operationId: getPackageManifest
+      summary: Get package manifest (all versions)
+      description: 'Returns the full package manifest including metadata for all published versions, dist-tags, and distribution information. Supports the abbreviated manifest format via Accept header (`application/vnd.npm.install-v1+json`).
+
+        '
+      tags:
+      - packages
+      parameters:
+      - $ref: '#/components/parameters/PackageName'
+      - name: write
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: When true, returns the manifest for write operations (e.g. unpublish)
+      responses:
+        '200':
+          description: Full package manifest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageManifest'
+            application/vnd.npm.install-v1+json:
+              schema:
+                $ref: '#/components/schemas/AbbreviatedManifest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{package}/{version}:
+    get:
+      operationId: getPackageByVersion
+      summary: Get a specific package version
+      description: Returns the package manifest for a specific version.
+      tags:
+      - packages
+      parameters:
+      - $ref: '#/components/parameters/PackageName'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Exact version or dist-tag (e.g. `1.0.0`, `latest`)
+        example: 1.0.0
+      responses:
+        '200':
+          description: Package version manifest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionManifest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{package}/-/{filename}:
+    get:
+      operationId: getPackageTarball
+      summary: Download a package tarball
+      description: Streams the binary tarball for the specified package and filename.
+      tags:
+      - packages
+      parameters:
+      - $ref: '#/components/parameters/PackageName'
+      - name: filename
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tarball filename (e.g. `package-1.0.0.tgz`)
+        example: my-package-1.0.0.tgz
+      responses:
+        '200':
+          description: Tarball binary stream
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: Package or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    PackageManifest:
+      type: object
+      description: Full package manifest containing all versions and metadata
+      properties:
+        _id:
+          type: string
+          description: Package name
+          example: lodash
+        name:
+          type: string
+          example: lodash
+        description:
+          type: string
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VersionManifest'
+        time:
+          type: object
+          additionalProperties:
+            type: string
+            format: date-time
+          description: Map of version to publish time
+        readme:
+          type: string
+          description: Package README content
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: 1.2.3
+        next: 2.0.0-beta.1
+        beta: 2.0.0-beta.1
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    VersionManifest:
+      type: object
+      description: Metadata for a single package version
+      properties:
+        name:
+          type: string
+          example: my-package
+        version:
+          type: string
+          example: 1.0.0
+        description:
+          type: string
+        main:
+          type: string
+          example: index.js
+        scripts:
+          type: object
+          additionalProperties:
+            type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        author:
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              url:
+                type: string
+        license:
+          type: string
+          example: MIT
+        dependencies:
+          type: object
+          additionalProperties:
+            type: string
+        devDependencies:
+          type: object
+          additionalProperties:
+            type: string
+        peerDependencies:
+          type: object
+          additionalProperties:
+            type: string
+        dist:
+          type: object
+          properties:
+            tarball:
+              type: string
+              format: uri
+              description: URL to download this version's tarball
+              example: http://localhost:4873/my-package/-/my-package-1.0.0.tgz
+            shasum:
+              type: string
+              description: SHA-1 checksum of the tarball
+              example: da39a3ee5e6b4b0d3255bfef95601890afd80709
+            integrity:
+              type: string
+              description: Subresource Integrity hash
+              example: sha512-abc123==
+        _id:
+          type: string
+          example: my-package@1.0.0
+        _nodeVersion:
+          type: string
+          example: 20.11.0
+        _npmVersion:
+          type: string
+          example: 10.2.4
+    AbbreviatedManifest:
+      type: object
+      description: Abbreviated package manifest (install-optimised format)
+      properties:
+        name:
+          type: string
+          example: lodash
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            type: object
+            description: Abbreviated version entry with only fields needed by the installer
+        modified:
+          type: string
+          format: date-time
+  parameters:
+    PackageName:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
+      example: lodash
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token issued by Verdaccio on login
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth with registry username and password

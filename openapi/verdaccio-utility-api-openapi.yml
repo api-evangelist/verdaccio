@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Verdaccio npm Registry dist-tags utility API
+  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
+
+    '
+  version: 6.0.0
+  contact:
+    name: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+  license:
+    name: MIT
+    url: https://github.com/verdaccio/verdaccio/blob/master/LICENSE
+  x-api-id: verdaccio:verdaccio-npm-registry-api
+servers:
+- url: http://localhost:4873
+  description: Default local Verdaccio instance
+security:
+- bearerAuth: []
+- basicAuth: []
+tags:
+- name: utility
+  description: Utility endpoints
+paths:
+  /-/ping:
+    get:
+      operationId: ping
+      summary: Ping the registry
+      description: Returns an empty object to confirm the registry is alive. Used by npm clients to check connectivity.
+      tags:
+      - utility
+      security: []
+      responses:
+        '200':
+          description: Registry is reachable
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token issued by Verdaccio on login
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth with registry username and password

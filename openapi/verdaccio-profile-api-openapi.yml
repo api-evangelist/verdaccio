@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: Verdaccio npm Registry dist-tags profile API
+  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
+
+    '
+  version: 6.0.0
+  contact:
+    name: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+  license:
+    name: MIT
+    url: https://github.com/verdaccio/verdaccio/blob/master/LICENSE
+  x-api-id: verdaccio:verdaccio-npm-registry-api
+servers:
+- url: http://localhost:4873
+  description: Default local Verdaccio instance
+security:
+- bearerAuth: []
+- basicAuth: []
+tags:
+- name: profile
+  description: User profile management
+paths:
+  /-/npm/v1/user:
+    get:
+      operationId: getProfile
+      summary: Get user profile
+      description: Returns the profile of the currently authenticated user.
+      tags:
+      - profile
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: updateProfile
+      summary: Update user profile (change password)
+      description: 'Updates the authenticated user''s profile. Currently supports password changes. Two-factor authentication is not supported.
+
+        '
+      tags:
+      - profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdateRequest'
+      responses:
+        '200':
+          description: Updated profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  responses:
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        password:
+          type: object
+          description: Password change payload
+          properties:
+            old:
+              type: string
+              format: password
+              description: Current password
+            new:
+              type: string
+              format: password
+              description: Desired new password
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    Profile:
+      type: object
+      properties:
+        tfa:
+          type: boolean
+          description: Two-factor authentication enabled (always false — not supported)
+          example: false
+        name:
+          type: string
+          description: Username
+          example: alice
+        email:
+          type: string
+          description: Email address (not stored; always empty)
+          example: ''
+        email_verified:
+          type: boolean
+          description: Whether the email has been verified (always false)
+          example: false
+        created:
+          type: string
+          description: Account creation timestamp (not stored; always empty)
+          example: ''
+        updated:
+          type: string
+          description: Account update timestamp (not stored; always empty)
+          example: ''
+        cidr_whitelist:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: CIDR whitelist (not enforced at profile level; always null)
+          example: null
+        fullname:
+          type: string
+          description: Full name (not stored; always empty)
+          example: ''
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token issued by Verdaccio on login
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth with registry username and password

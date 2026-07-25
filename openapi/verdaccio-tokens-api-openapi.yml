@@ -1,0 +1,205 @@
+openapi: 3.0.3
+info:
+  title: Verdaccio npm Registry dist-tags tokens API
+  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
+
+    '
+  version: 6.0.0
+  contact:
+    name: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+  license:
+    name: MIT
+    url: https://github.com/verdaccio/verdaccio/blob/master/LICENSE
+  x-api-id: verdaccio:verdaccio-npm-registry-api
+servers:
+- url: http://localhost:4873
+  description: Default local Verdaccio instance
+security:
+- bearerAuth: []
+- basicAuth: []
+tags:
+- name: tokens
+  description: API token management
+paths:
+  /-/npm/v1/tokens:
+    get:
+      operationId: listTokens
+      summary: List API tokens
+      description: Returns all API tokens created by the currently authenticated user.
+      tags:
+      - tokens
+      responses:
+        '200':
+          description: List of tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createToken
+      summary: Create an API token
+      description: 'Creates a new API token for the authenticated user. The plain-text token is returned once; subsequent reads return a masked version.
+
+        '
+      tags:
+      - tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreateRequest'
+      responses:
+        '200':
+          description: Newly created token (plain-text, returned once)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObject'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '501':
+          description: Storage backend does not support token persistence
+  /-/npm/v1/tokens/token/{tokenKey}:
+    delete:
+      operationId: deleteToken
+      summary: Revoke an API token
+      description: Permanently deletes the specified token so it can no longer be used for authentication.
+      tags:
+      - tokens
+      parameters:
+      - name: tokenKey
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The token key identifier (not the token value itself)
+      responses:
+        '200':
+          description: Token revoked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+components:
+  schemas:
+    TokenListResponse:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenObject'
+        urls:
+          type: object
+          properties:
+            next:
+              type: string
+              description: URL for next page (pagination not yet implemented; always empty)
+              example: ''
+    TokenObject:
+      type: object
+      properties:
+        token:
+          type: string
+          description: The token value (plain-text on creation; masked on subsequent reads)
+          example: npm_abc123...
+        user:
+          type: string
+          description: Username that owns the token
+          example: alice
+        key:
+          type: string
+          description: Unique key identifier for the token
+          example: a1b2c3d4e5f6789012345678
+        cidr:
+          type: array
+          items:
+            type: string
+          description: CIDR restrictions for this token
+          example: []
+        cidr_whitelist:
+          type: array
+          items:
+            type: string
+          description: Alias for cidr, used by npm CLI
+          example: []
+        readonly:
+          type: boolean
+          description: Whether the token is read-only
+          example: false
+        created:
+          type: string
+          format: date-time
+          description: ISO 8601 creation timestamp
+          example: '2024-01-15T10:30:00.000Z'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    TokenCreateRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          description: User password for re-authentication before token creation
+          example: s3cr3t
+        readonly:
+          type: boolean
+          description: Whether the token should be read-only
+          example: false
+        cidr_whitelist:
+          type: array
+          items:
+            type: string
+          description: CIDR ranges to restrict token usage
+          example: []
+      required:
+      - password
+      - readonly
+      - cidr_whitelist
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token issued by Verdaccio on login
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth with registry username and password

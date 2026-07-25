@@ -1,0 +1,288 @@
+openapi: 3.0.3
+info:
+  title: Verdaccio npm Registry dist-tags user API
+  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
+
+    '
+  version: 6.0.0
+  contact:
+    name: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+  license:
+    name: MIT
+    url: https://github.com/verdaccio/verdaccio/blob/master/LICENSE
+  x-api-id: verdaccio:verdaccio-npm-registry-api
+servers:
+- url: http://localhost:4873
+  description: Default local Verdaccio instance
+security:
+- bearerAuth: []
+- basicAuth: []
+tags:
+- name: user
+  description: User authentication and management
+paths:
+  /-/whoami:
+    get:
+      operationId: whoami
+      summary: Get current authenticated user name
+      description: Returns the username of the currently authenticated user. Equivalent to `npm whoami`.
+      tags:
+      - user
+      responses:
+        '200':
+          description: Username of the authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhoamiResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /-/user/{org_couchdb_user}:
+    get:
+      operationId: getUser
+      summary: Get user information
+      description: Returns authenticated user information. Used by npm to verify login status.
+      tags:
+      - user
+      parameters:
+      - $ref: '#/components/parameters/OrgCouchdbUser'
+      responses:
+        '200':
+          description: User information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: addOrLoginUser
+      summary: Add a new user or log in an existing user
+      description: 'Creates a new user account or authenticates an existing user. This is the endpoint used by `npm login` / `npm adduser`. Returns a JWT or Basic Auth token on success.
+
+        '
+      tags:
+      - user
+      parameters:
+      - $ref: '#/components/parameters/OrgCouchdbUser'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+      responses:
+        '201':
+          description: User created or authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Username conflict
+  /-/v1/login:
+    post:
+      operationId: initiateLogin
+      summary: Initiate web login flow
+      description: 'Starts the web-based login flow. Available only when the `webLogin` feature flag is enabled. Returns a login URL and session token.
+
+        '
+      tags:
+      - user
+      security: []
+      responses:
+        '200':
+          description: Login URL and session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginInitiateResponse'
+  /-/v1/login_cli/{sessionId}:
+    get:
+      operationId: pollLoginSession
+      summary: Poll web login session status
+      description: Polls the status of a web login session by session ID.
+      tags:
+      - user
+      security: []
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Session status
+          content:
+            application/json:
+              schema:
+                type: object
+  /-/v1/done:
+    get:
+      operationId: completeLogin
+      summary: Complete web login flow
+      description: Finalizes the web login and issues an authentication token.
+      tags:
+      - user
+      responses:
+        '200':
+          description: Authentication completed
+          content:
+            application/json:
+              schema:
+                type: object
+  /-/v1/done/{sessionId}:
+    get:
+      operationId: completeLoginSession
+      summary: Complete web login flow for a specific session
+      description: Finalizes the web login for a specific session ID.
+      tags:
+      - user
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Authentication completed
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    UserLoginResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          example: user 'alice' created
+        token:
+          type: string
+          description: JWT or Basic Auth token to use in subsequent requests
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      required:
+      - ok
+      - token
+    WhoamiResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of the authenticated user
+          example: alice
+      required:
+      - username
+    UserResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Username
+          example: alice
+        email:
+          type: string
+          format: email
+          description: Email address (may be empty)
+          example: ''
+        ok:
+          oneOf:
+          - type: string
+          - type: boolean
+          description: Authentication status message or boolean
+          example: you are authenticated as 'alice'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    UserLoginRequest:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: CouchDB user document ID
+          example: org.couchdb.user:alice
+        name:
+          type: string
+          description: Username
+          example: alice
+        password:
+          type: string
+          format: password
+          description: Plain-text password
+          example: s3cr3t
+        type:
+          type: string
+          enum:
+          - user
+          example: user
+        roles:
+          type: array
+          items:
+            type: string
+          example: []
+        date:
+          type: string
+          format: date-time
+          example: '2024-01-15T10:30:00.000Z'
+      required:
+      - name
+      - password
+    LoginInitiateResponse:
+      type: object
+      properties:
+        loginUrl:
+          type: string
+          format: uri
+          description: URL the user should open in a browser to authenticate
+          example: http://localhost:4873/-/v1/login_cli/abc123
+        doneUrl:
+          type: string
+          format: uri
+          description: URL to poll for login completion
+          example: http://localhost:4873/-/v1/done/abc123
+  parameters:
+    OrgCouchdbUser:
+      name: org_couchdb_user
+      in: path
+      required: true
+      schema:
+        type: string
+      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
+      example: org.couchdb.user:alice
+  responses:
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token issued by Verdaccio on login
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth with registry username and password

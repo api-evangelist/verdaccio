@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Verdaccio npm Registry dist-tags search API
+  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
+
+    '
+  version: 6.0.0
+  contact:
+    name: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+  license:
+    name: MIT
+    url: https://github.com/verdaccio/verdaccio/blob/master/LICENSE
+  x-api-id: verdaccio:verdaccio-npm-registry-api
+servers:
+- url: http://localhost:4873
+  description: Default local Verdaccio instance
+security:
+- bearerAuth: []
+- basicAuth: []
+tags:
+- name: search
+  description: Search the registry
+paths:
+  /-/v1/search:
+    get:
+      operationId: searchPackages
+      summary: Search packages (v1)
+      description: 'Searches the registry using the npm v1 search API. Supports text queries with quality, popularity, and maintenance score weighting.
+
+        '
+      tags:
+      - search
+      security: []
+      parameters:
+      - name: text
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Search query text
+        example: lodash
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+        description: Number of results to return
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+        description: Offset for pagination
+      - name: quality
+        in: query
+        required: false
+        schema:
+          type: number
+          format: float
+        description: Quality score weight (0–1)
+      - name: popularity
+        in: query
+        required: false
+        schema:
+          type: number
+          format: float
+        description: Popularity score weight (0–1)
+      - name: maintenance
+        in: query
+        required: false
+        schema:
+          type: number
+          format: float
+        description: Maintenance score weight (0–1)
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
+components:
+  schemas:
+    SearchResultPackage:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Package name
+          example: lodash
+        version:
+          type: string
+          description: Latest published version
+          example: 4.17.21
+        description:
+          type: string
+          description: Package description
+          example: Lodash modular utilities.
+        keywords:
+          type: array
+          items:
+            type: string
+          example:
+          - array
+          - collection
+          - object
+        date:
+          type: string
+          format: date-time
+          description: Date of last publish
+        author:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+        links:
+          type: object
+          properties:
+            npm:
+              type: string
+            homepage:
+              type: string
+            repository:
+              type: string
+            bugs:
+              type: string
+    SearchResults:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResultItem'
+        total:
+          type: integer
+          description: Total number of results
+          example: 42
+        time:
+          type: string
+          description: UTC timestamp of the search
+          example: Sun Jul 25 2021 14:09:11 GMT+0000 (Coordinated Universal Time)
+      required:
+      - objects
+      - total
+      - time
+    SearchResultItem:
+      type: object
+      properties:
+        package:
+          $ref: '#/components/schemas/SearchResultPackage'
+        score:
+          type: object
+          properties:
+            final:
+              type: number
+              format: float
+            detail:
+              type: object
+              properties:
+                quality:
+                  type: number
+                  format: float
+                popularity:
+                  type: number
+                  format: float
+                maintenance:
+                  type: number
+                  format: float
+        searchScore:
+          type: number
+          format: float
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token issued by Verdaccio on login
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth with registry username and password
