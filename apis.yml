@@ -2,7 +2,20 @@ aid: verdaccio
 name: Verdaccio
 description: Verdaccio is an open-source, lightweight private npm proxy registry built in Node.js that enables organizations to host, cache, and manage packages privately. It implements the CommonJS Compliant Package Registry specification and provides a REST API for publishing, searching, and managing npm packages in self-hosted or cloud-deployed environments. Verdaccio supports JWT and Basic Auth token authentication, rate limiting, pluggable storage backends, and seamless proxying of upstream registries such as npmjs.org.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/verdaccio.png
 url: https://raw.githubusercontent.com/api-evangelist/verdaccio/refs/heads/main/apis.yml
 created: 2026-06-13
 modified: 2026-06-13
@@ -21,34 +34,118 @@ tags:
   - docker
   - kubernetes
 apis:
-  - aid: verdaccio:verdaccio-npm-registry-api
-    name: Verdaccio npm Registry API
-    description: The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
-    humanURL: https://www.verdaccio.org/docs/
-    baseURL: http://localhost:4873
-    tags:
-      - npm
-      - packages
-      - registry
-      - publish
-      - search
-      - proxy
-    properties:
-      - type: Documentation
-        url: https://www.verdaccio.org/docs/
-      - type: Authentication
-        url: https://www.verdaccio.org/docs/authentication/
-      - type: Configuration
-        url: https://www.verdaccio.org/docs/configuration/
-      - type: GitHubRepository
-        url: https://github.com/verdaccio/verdaccio
-      - type: Docker
-        url: https://hub.docker.com/r/verdaccio/verdaccio
-      - type: HelmChart
-        url: https://charts.verdaccio.org
-    contact:
-      - FN: Verdaccio Community
-        url: https://discord.gg/7qWJxBf
+- aid: verdaccio:verdaccio-npm-registry-api
+  name: Verdaccio npm Registry API
+  description: >-
+    The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification,
+    providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens
+    and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn,
+    or pnpm client can interact with it without modification.
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - npm
+  - packages
+  - registry
+  - publish
+  - search
+  - proxy
+  properties:
+  - type: Documentation
+    url: https://www.verdaccio.org/docs/
+  - type: Authentication
+    url: https://www.verdaccio.org/docs/authentication/
+  - type: Configuration
+    url: https://www.verdaccio.org/docs/configuration/
+  - type: GitHubRepository
+    url: https://github.com/verdaccio/verdaccio
+  - type: Docker
+    url: https://hub.docker.com/r/verdaccio/verdaccio
+  - type: HelmChart
+    url: https://charts.verdaccio.org
+  contact:
+  - FN: Verdaccio Community
+    url: https://discord.gg/7qWJxBf
+- aid: verdaccio:verdaccio-dist-tags-api
+  name: Verdaccio dist-tags API
+  description: Manage dist-tags for packages
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - dist-tags
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-dist-tags-api-openapi.yml
+- aid: verdaccio:verdaccio-packages-api
+  name: Verdaccio packages API
+  description: Retrieve package metadata and tarballs
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - packages
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-packages-api-openapi.yml
+- aid: verdaccio:verdaccio-profile-api
+  name: Verdaccio profile API
+  description: User profile management
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - profile
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-profile-api-openapi.yml
+- aid: verdaccio:verdaccio-publish-api
+  name: Verdaccio publish API
+  description: Publish, update, and unpublish packages
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - publish
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-publish-api-openapi.yml
+- aid: verdaccio:verdaccio-search-api
+  name: Verdaccio search API
+  description: Search the registry
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - search
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-search-api-openapi.yml
+- aid: verdaccio:verdaccio-tokens-api
+  name: Verdaccio tokens API
+  description: API token management
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-tokens-api-openapi.yml
+- aid: verdaccio:verdaccio-user-api
+  name: Verdaccio user API
+  description: User authentication and management
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - user
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-user-api-openapi.yml
+- aid: verdaccio:verdaccio-utility-api
+  name: Verdaccio utility API
+  description: Utility endpoints
+  humanURL: https://www.verdaccio.org/docs/
+  baseURL: http://localhost:4873
+  tags:
+  - utility
+  properties:
+  - type: OpenAPI
+    url: openapi/verdaccio-utility-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/verdaccio-agentic-access.yml
