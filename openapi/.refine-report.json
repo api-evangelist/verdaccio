@@ -1,0 +1,28 @@
+{
+  "provider": "verdaccio",
+  "sources": [
+    "verdaccio-dist-tags-api-openapi.yml",
+    "verdaccio-packages-api-openapi.yml",
+    "verdaccio-profile-api-openapi.yml",
+    "verdaccio-publish-api-openapi.yml",
+    "verdaccio-search-api-openapi.yml",
+    "verdaccio-tokens-api-openapi.yml",
+    "verdaccio-user-api-openapi.yml",
+    "verdaccio-utility-api-openapi.yml"
+  ],
+  "outputs": [
+    "verdaccio-dist-tags-api-openapi.yml",
+    "verdaccio-packages-api-openapi.yml",
+    "verdaccio-profile-api-openapi.yml",
+    "verdaccio-publish-api-openapi.yml",
+    "verdaccio-search-api-openapi.yml",
+    "verdaccio-tokens-api-openapi.yml",
+    "verdaccio-user-api-openapi.yml",
+    "verdaccio-utility-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
