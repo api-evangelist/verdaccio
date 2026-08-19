@@ -1,0 +1,135 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags user API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "user",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current authenticated user name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/whoami"
+          },
+          "docs": "Returns the username of the currently authenticated user. Equivalent to `npm whoami`."
+        },
+        {
+          "info": {
+            "name": "Get user information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/user/:org_couchdb_user",
+            "params": [
+              {
+                "name": "org_couchdb_user",
+                "value": "org.couchdb.user:alice",
+                "type": "path",
+                "description": "CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+              }
+            ]
+          },
+          "docs": "Returns authenticated user information. Used by npm to verify login status."
+        },
+        {
+          "info": {
+            "name": "Add a new user or log in an existing user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:4873/-/user/:org_couchdb_user",
+            "params": [
+              {
+                "name": "org_couchdb_user",
+                "value": "org.couchdb.user:alice",
+                "type": "path",
+                "description": "CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new user account or authenticates an existing user. This is the endpoint used by `npm login` / `npm adduser`. Returns a JWT or Basic Auth token on success.\n"
+        },
+        {
+          "info": {
+            "name": "Initiate web login flow",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4873/-/v1/login"
+          },
+          "docs": "Starts the web-based login flow. Available only when the `webLogin` feature flag is enabled. Returns a login URL and session token.\n"
+        },
+        {
+          "info": {
+            "name": "Poll web login session status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/v1/login_cli/:sessionId",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Polls the status of a web login session by session ID."
+        },
+        {
+          "info": {
+            "name": "Complete web login flow",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/v1/done"
+          },
+          "docs": "Finalizes the web login and issues an authentication token."
+        },
+        {
+          "info": {
+            "name": "Complete web login flow for a specific session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/v1/done/:sessionId",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Finalizes the web login for a specific session ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

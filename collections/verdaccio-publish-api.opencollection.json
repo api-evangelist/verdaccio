@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags publish API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "publish",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Publish a new package",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:4873/:package",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Publishes a new package or a new version of an existing package. The request body must include the package metadata and an `_attachments` property containing the base64-encoded tarball.\n"
+        },
+        {
+          "info": {
+            "name": "Update package at a specific revision",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:4873/:package/-rev/:revision",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+              },
+              {
+                "name": "revision",
+                "value": "14-5d500cfce92f90fd",
+                "type": "path",
+                "description": "CouchDB-style revision identifier (e.g. `14-abc123`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used during unpublish to update the package manifest to a new revision, removing the specified version from metadata.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a package tarball",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:4873/:package/-/:filename/-rev/:revision",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+              },
+              {
+                "name": "filename",
+                "value": "my-package-1.0.0.tgz",
+                "type": "path",
+                "description": "Tarball filename (e.g. `package-1.0.0.tgz`)"
+              },
+              {
+                "name": "revision",
+                "value": "16-e11c8db282b2d992",
+                "type": "path",
+                "description": "CouchDB-style revision identifier"
+              }
+            ]
+          },
+          "docs": "Deletes a specific tarball file. Called as the final step of the npm unpublish flow after the package manifest has been updated.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

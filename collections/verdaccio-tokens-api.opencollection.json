@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags tokens API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List API tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/npm/v1/tokens"
+          },
+          "docs": "Returns all API tokens created by the currently authenticated user."
+        },
+        {
+          "info": {
+            "name": "Create an API token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4873/-/npm/v1/tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new API token for the authenticated user. The plain-text token is returned once; subsequent reads return a masked version.\n"
+        },
+        {
+          "info": {
+            "name": "Revoke an API token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:4873/-/npm/v1/tokens/token/:tokenKey",
+            "params": [
+              {
+                "name": "tokenKey",
+                "value": "",
+                "type": "path",
+                "description": "The token key identifier (not the token value itself)"
+              }
+            ]
+          },
+          "docs": "Permanently deletes the specified token so it can no longer be used for authentication."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

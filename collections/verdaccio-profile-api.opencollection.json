@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags profile API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "profile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/npm/v1/user"
+          },
+          "docs": "Returns the profile of the currently authenticated user."
+        },
+        {
+          "info": {
+            "name": "Update user profile (change password)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4873/-/npm/v1/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the authenticated user's profile. Currently supports password changes. Two-factor authentication is not supported.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

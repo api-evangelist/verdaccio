@@ -1,0 +1,978 @@
+{
+  "item": [
+    {
+      "id": "2dafc1f8-af2e-4cff-81da-bd1132d5c341",
+      "name": "user",
+      "description": {
+        "content": "User authentication and management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ace1b4d9-b595-497c-92a0-3c42394c37fe",
+          "name": "Get current authenticated user name",
+          "request": {
+            "name": "Get current authenticated user name",
+            "description": {
+              "content": "Returns the username of the currently authenticated user. Equivalent to `npm whoami`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "whoami"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d836ad28-df25-44c3-b414-2a5acf670ee8",
+              "name": "Username of the authenticated user",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "whoami"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"username\": \"alice\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc29e0f1-037e-42b4-a6b7-57a6ed3fea13",
+              "name": "Authentication required or credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "whoami"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d5f32c98-b00f-4c0b-92c7-d557645ad483",
+          "name": "Get user information",
+          "request": {
+            "name": "Get user information",
+            "description": {
+              "content": "Returns authenticated user information. Used by npm to verify login status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "user",
+                ":org_couchdb_user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "org_couchdb_user",
+                  "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "de794eb4-4ee3-414b-9da3-5cca1c003c3d",
+              "name": "User information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "user",
+                    ":org_couchdb_user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "org_couchdb_user",
+                      "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"alice\",\n  \"email\": \"5JaIbdmFV@bvXDnQpIYxRFmICHMJB.jlef\",\n  \"ok\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2492dd83-0969-4a93-8c41-64bb489712f0",
+              "name": "Authentication required or credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "user",
+                    ":org_couchdb_user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "org_couchdb_user",
+                      "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e43a1b14-25e8-4b32-99cf-996cc23a5b99",
+          "name": "Add a new user or log in an existing user",
+          "request": {
+            "name": "Add a new user or log in an existing user",
+            "description": {
+              "content": "Creates a new user account or authenticates an existing user. This is the endpoint used by `npm login` / `npm adduser`. Returns a JWT or Basic Auth token on success.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "user",
+                ":org_couchdb_user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "org_couchdb_user",
+                  "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<password>\",\n  \"_id\": \"<string>\",\n  \"type\": \"<string>\",\n  \"roles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"date\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3ebb5980-f7be-4b18-aa54-ba4e881008e9",
+              "name": "User created or authenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "user",
+                    ":org_couchdb_user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "org_couchdb_user",
+                      "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"alice\",\n  \"password\": \"s3cr3t\",\n  \"_id\": \"org.couchdb.user:alice\",\n  \"type\": \"user\",\n  \"date\": \"2024-01-15T10:30:00.000Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": \"user 'alice' created\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc437699-552e-4eaf-a2c7-635d36a8be09",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "user",
+                    ":org_couchdb_user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "org_couchdb_user",
+                      "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"alice\",\n  \"password\": \"s3cr3t\",\n  \"_id\": \"org.couchdb.user:alice\",\n  \"type\": \"user\",\n  \"date\": \"2024-01-15T10:30:00.000Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eaa9975e-7fbe-440f-9bb5-3e4723f13754",
+              "name": "Authentication required or credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "user",
+                    ":org_couchdb_user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "org_couchdb_user",
+                      "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"alice\",\n  \"password\": \"s3cr3t\",\n  \"_id\": \"org.couchdb.user:alice\",\n  \"type\": \"user\",\n  \"date\": \"2024-01-15T10:30:00.000Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4520487c-0e4b-4aea-b55d-2c1cca67bc7f",
+              "name": "Username conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "user",
+                    ":org_couchdb_user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "org_couchdb_user",
+                      "description": "(Required) CouchDB-style user identifier, e.g. `org.couchdb.user:alice`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"alice\",\n  \"password\": \"s3cr3t\",\n  \"_id\": \"org.couchdb.user:alice\",\n  \"type\": \"user\",\n  \"date\": \"2024-01-15T10:30:00.000Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2470d9da-8e6b-4984-a21e-d18112783443",
+          "name": "Initiate web login flow",
+          "request": {
+            "name": "Initiate web login flow",
+            "description": {
+              "content": "Starts the web-based login flow. Available only when the `webLogin` feature flag is enabled. Returns a login URL and session token.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "v1",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c0e04336-4e60-414e-aeee-6ced5a37db4f",
+              "name": "Login URL and session details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "v1",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"loginUrl\": \"http://localhost:4873/-/v1/login_cli/abc123\",\n  \"doneUrl\": \"http://localhost:4873/-/v1/done/abc123\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "edb04b78-8edf-4874-9a57-5cdb63dd4de6",
+          "name": "Poll web login session status",
+          "request": {
+            "name": "Poll web login session status",
+            "description": {
+              "content": "Polls the status of a web login session by session ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "v1",
+                "login_cli",
+                ":sessionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sessionId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "00ae21b8-0c6d-4136-9658-c92201fa2258",
+              "name": "Session status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "v1",
+                    "login_cli",
+                    ":sessionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sessionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d3a9fe29-70b5-4111-b0eb-c0282a3fe9d6",
+          "name": "Complete web login flow",
+          "request": {
+            "name": "Complete web login flow",
+            "description": {
+              "content": "Finalizes the web login and issues an authentication token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "v1",
+                "done"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "944d222c-0972-4cb0-b95e-81d4aacc75c8",
+              "name": "Authentication completed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "v1",
+                    "done"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5f1146bb-8a3b-4008-a266-a5c9c7209ea1",
+          "name": "Complete web login flow for a specific session",
+          "request": {
+            "name": "Complete web login flow for a specific session",
+            "description": {
+              "content": "Finalizes the web login for a specific session ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "v1",
+                "done",
+                ":sessionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sessionId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2487b138-98b7-4815-b06a-e19a233c1587",
+              "name": "Authentication completed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "v1",
+                    "done",
+                    ":sessionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sessionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:4873",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "866f4d63-f01a-4d6e-90d8-c7edddd38ba8",
+    "name": "Verdaccio npm Registry dist-tags user API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.\n\n\nContact Support:\n Name: Verdaccio Community",
+      "type": "text/plain"
+    }
+  }
+}

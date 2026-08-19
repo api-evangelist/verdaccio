@@ -1,0 +1,185 @@
+{
+  "item": [
+    {
+      "id": "81a75f68-1466-4fef-85d5-7f21c5f1dff3",
+      "name": "search",
+      "description": {
+        "content": "Search the registry",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8e2278f8-b137-4fcb-96bd-a0135f5ecf1a",
+          "name": "Search packages (v1)",
+          "request": {
+            "name": "Search packages (v1)",
+            "description": {
+              "content": "Searches the registry using the npm v1 search API. Supports text queries with quality, popularity, and maintenance score weighting.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "v1",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "text",
+                  "value": "<string>",
+                  "description": "Search query text"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "20",
+                  "description": "Number of results to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "0",
+                  "description": "Offset for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "quality",
+                  "value": "<float>",
+                  "description": "Quality score weight (0–1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "popularity",
+                  "value": "<float>",
+                  "description": "Popularity score weight (0–1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "maintenance",
+                  "value": "<float>",
+                  "description": "Maintenance score weight (0–1)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1df3c46f-4171-41cd-9289-bc0dddaaa873",
+              "name": "Search results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "v1",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "text",
+                      "value": "lodash"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "from",
+                      "value": "0"
+                    },
+                    {
+                      "key": "quality",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "popularity",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "maintenance",
+                      "value": "<float>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"objects\": [\n    {\n      \"package\": {\n        \"name\": \"lodash\",\n        \"version\": \"4.17.21\",\n        \"description\": \"Lodash modular utilities.\",\n        \"keywords\": [\n          \"array\",\n          \"collection\",\n          \"object\"\n        ],\n        \"date\": \"1977-12-25T19:19:49.779Z\",\n        \"author\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"links\": {\n          \"npm\": \"string\",\n          \"homepage\": \"string\",\n          \"repository\": \"string\",\n          \"bugs\": \"string\"\n        }\n      },\n      \"score\": {\n        \"final\": 1355.513109577845,\n        \"detail\": {\n          \"quality\": 381.58397333424745,\n          \"popularity\": 2214.833528401936,\n          \"maintenance\": 4117.477831821894\n        }\n      },\n      \"searchScore\": 3546.8732300619176\n    },\n    {\n      \"package\": {\n        \"name\": \"lodash\",\n        \"version\": \"4.17.21\",\n        \"description\": \"Lodash modular utilities.\",\n        \"keywords\": [\n          \"array\",\n          \"collection\",\n          \"object\"\n        ],\n        \"date\": \"1966-11-17T09:50:49.618Z\",\n        \"author\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"links\": {\n          \"npm\": \"string\",\n          \"homepage\": \"string\",\n          \"repository\": \"string\",\n          \"bugs\": \"string\"\n        }\n      },\n      \"score\": {\n        \"final\": 2619.3356984022444,\n        \"detail\": {\n          \"quality\": 4861.60689537258,\n          \"popularity\": 5965.768730891547,\n          \"maintenance\": 9492.90901008341\n        }\n      },\n      \"searchScore\": 5861.723772208871\n    }\n  ],\n  \"total\": 42,\n  \"time\": \"Sun Jul 25 2021 14:09:11 GMT+0000 (Coordinated Universal Time)\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:4873",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e230d8dc-8f43-4329-95e2-6e09136db70c",
+    "name": "Verdaccio npm Registry dist-tags search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.\n\n\nContact Support:\n Name: Verdaccio Community",
+      "type": "text/plain"
+    }
+  }
+}

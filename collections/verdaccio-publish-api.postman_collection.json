@@ -1,0 +1,857 @@
+{
+  "item": [
+    {
+      "id": "acd0e03e-3892-4cf3-a05b-eca85440417a",
+      "name": "publish",
+      "description": {
+        "content": "Publish, update, and unpublish packages",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e69c40f2-06bf-4835-9b86-700271c7d364",
+          "name": "Publish a new package",
+          "request": {
+            "name": "Publish a new package",
+            "description": {
+              "content": "Publishes a new package or a new version of an existing package. The request body must include the package metadata and an `_attachments` property containing the base64-encoded tarball.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":package"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "package",
+                  "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"main\": \"<string>\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"<string>\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"<uri>\",\n        \"shasum\": \"<string>\",\n        \"integrity\": \"<string>\"\n      },\n      \"_id\": \"<string>\",\n      \"_nodeVersion\": \"<string>\",\n      \"_npmVersion\": \"<string>\"\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"main\": \"<string>\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"<string>\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"<uri>\",\n        \"shasum\": \"<string>\",\n        \"integrity\": \"<string>\"\n      },\n      \"_id\": \"<string>\",\n      \"_nodeVersion\": \"<string>\",\n      \"_npmVersion\": \"<string>\"\n    }\n  },\n  \"_id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"key_0\": \"<string>\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"<string>\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "23d01a81-88a1-4ed8-a213-92fdb4d3808b",
+              "name": "Package published successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-package\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\",\n        \"key_4\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"_id\": \"my-package\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    },\n    \"key_1\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": \"package published\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7340094-b105-4c97-9a0a-e780889e0408",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-package\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\",\n        \"key_4\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"_id\": \"my-package\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    },\n    \"key_1\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2be61b4-59bf-465c-b721-67bf79567484",
+              "name": "Authentication required or credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-package\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\",\n        \"key_4\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"_id\": \"my-package\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    },\n    \"key_1\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a070e3d-afe8-43e2-9def-0124737eb194",
+              "name": "Authenticated user lacks permission for this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-package\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\",\n        \"key_4\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"_id\": \"my-package\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    },\n    \"key_1\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c31a1c1-ce92-4d21-a757-5c42ad0c840e",
+              "name": "Package version already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-package\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\",\n        \"key_4\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"_id\": \"my-package\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    },\n    \"key_1\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "31dff2e9-d31e-4d82-aa27-9d5e39c62722",
+          "name": "Update package at a specific revision",
+          "request": {
+            "name": "Update package at a specific revision",
+            "description": {
+              "content": "Used during unpublish to update the package manifest to a new revision, removing the specified version from metadata.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":package",
+                "-rev",
+                ":revision"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "package",
+                  "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "revision",
+                  "description": "(Required) CouchDB-style revision identifier (e.g. `14-abc123`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"main\": \"<string>\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"<string>\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"<uri>\",\n        \"shasum\": \"<string>\",\n        \"integrity\": \"<string>\"\n      },\n      \"_id\": \"<string>\",\n      \"_nodeVersion\": \"<string>\",\n      \"_npmVersion\": \"<string>\"\n    }\n  },\n  \"_id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"<string>\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2bbe3f7b-60d1-427c-a295-670654e0b332",
+              "name": "Package revision updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-rev",
+                    ":revision"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "revision",
+                      "description": "(Required) CouchDB-style revision identifier (e.g. `14-abc123`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-package\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\",\n        \"key_4\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"_id\": \"my-package\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    },\n    \"key_1\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": \"package published\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30b91b3f-f3b0-4adc-bc37-a6c263982bcd",
+              "name": "Package or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-rev",
+                    ":revision"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "revision",
+                      "description": "(Required) CouchDB-style revision identifier (e.g. `14-abc123`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-package\",\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\",\n        \"key_4\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"<string>\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"keywords\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"author\": \"<string>\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"_id\": \"my-package\",\n  \"description\": \"<string>\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"_attachments\": {\n    \"key_0\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    },\n    \"key_1\": {\n      \"content_type\": \"application/octet-stream\",\n      \"data\": \"<byte>\",\n      \"length\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a8fd44f8-d33e-4924-a06f-0d80bb881233",
+          "name": "Delete a package tarball",
+          "request": {
+            "name": "Delete a package tarball",
+            "description": {
+              "content": "Deletes a specific tarball file. Called as the final step of the npm unpublish flow after the package manifest has been updated.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":package",
+                "-",
+                ":filename",
+                "-rev",
+                ":revision"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "package",
+                  "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "filename",
+                  "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "revision",
+                  "description": "(Required) CouchDB-style revision identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab796918-8f32-4fcf-b20e-dfde45c8132c",
+              "name": "Tarball deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-",
+                    ":filename",
+                    "-rev",
+                    ":revision"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "revision",
+                      "description": "(Required) CouchDB-style revision identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": \"package published\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c056d54-febc-449c-b3a8-822e2bb04009",
+              "name": "Authenticated user lacks permission for this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-",
+                    ":filename",
+                    "-rev",
+                    ":revision"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "revision",
+                      "description": "(Required) CouchDB-style revision identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb4da7bf-b71a-4da5-8113-9d2b3bd88a88",
+              "name": "Package or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-",
+                    ":filename",
+                    "-rev",
+                    ":revision"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "revision",
+                      "description": "(Required) CouchDB-style revision identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:4873",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "86ac7b39-7678-4758-b527-d0c60af373d5",
+    "name": "Verdaccio npm Registry dist-tags publish API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.\n\n\nContact Support:\n Name: Verdaccio Community",
+      "type": "text/plain"
+    }
+  }
+}

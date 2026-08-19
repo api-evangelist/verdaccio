@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags search API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search packages (v1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/v1/search",
+            "params": [
+              {
+                "name": "text",
+                "value": "lodash",
+                "type": "query",
+                "description": "Search query text"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Offset for pagination"
+              },
+              {
+                "name": "quality",
+                "value": "",
+                "type": "query",
+                "description": "Quality score weight (0–1)"
+              },
+              {
+                "name": "popularity",
+                "value": "",
+                "type": "query",
+                "description": "Popularity score weight (0–1)"
+              },
+              {
+                "name": "maintenance",
+                "value": "",
+                "type": "query",
+                "description": "Maintenance score weight (0–1)"
+              }
+            ]
+          },
+          "docs": "Searches the registry using the npm v1 search API. Supports text queries with quality, popularity, and maintenance score weighting.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags utility API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "utility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ping the registry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/ping"
+          },
+          "docs": "Returns an empty object to confirm the registry is alive. Used by npm clients to check connectivity."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

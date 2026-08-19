@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "dist-tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all dist-tags for a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/-/package/:package/dist-tags",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped)"
+              }
+            ]
+          },
+          "docs": "Returns a map of dist-tag names to version strings for the specified package."
+        },
+        {
+          "info": {
+            "name": "Set a dist-tag on a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:4873/-/package/:package/dist-tags/:tag",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped)"
+              },
+              {
+                "name": "tag",
+                "value": "latest",
+                "type": "path",
+                "description": "Dist-tag name (e.g. `latest`, `next`, `beta`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets or updates a named dist-tag to point to the specified version string."
+        },
+        {
+          "info": {
+            "name": "Delete a dist-tag from a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:4873/-/package/:package/dist-tags/:tag",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped)"
+              },
+              {
+                "name": "tag",
+                "value": "latest",
+                "type": "path",
+                "description": "Dist-tag name (e.g. `latest`, `next`, `beta`)"
+              }
+            ]
+          },
+          "docs": "Removes a named dist-tag from the package."
+        },
+        {
+          "info": {
+            "name": "Set a dist-tag (shorthand route)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:4873/:package/:tag",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+              },
+              {
+                "name": "tag",
+                "value": "latest",
+                "type": "path",
+                "description": "Dist-tag name (e.g. `latest`, `next`, `beta`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Alternative shorthand route for setting a dist-tag, compatible with older npm clients."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

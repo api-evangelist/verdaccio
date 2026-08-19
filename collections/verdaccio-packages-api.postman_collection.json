@@ -1,0 +1,719 @@
+{
+  "item": [
+    {
+      "id": "dcdc8856-8519-4657-abb7-472ad45a7f2b",
+      "name": "packages",
+      "description": {
+        "content": "Retrieve package metadata and tarballs",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a1ef7e03-b43f-43fe-8131-60295bc6718a",
+          "name": "Get package manifest (all versions)",
+          "request": {
+            "name": "Get package manifest (all versions)",
+            "description": {
+              "content": "Returns the full package manifest including metadata for all published versions, dist-tags, and distribution information. Supports the abbreviated manifest format via Accept header (`application/vnd.npm.install-v1+json`).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":package"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "write",
+                  "value": "<boolean>",
+                  "description": "When true, returns the manifest for write operations (e.g. unpublish)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "package",
+                  "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b1bb0cc4-1bb7-4af1-8731-58ce6dd42a73",
+              "name": "Full package manifest",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "write",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"lodash\",\n  \"name\": \"lodash\",\n  \"description\": \"string\",\n  \"dist-tags\": {\n    \"latest\": \"1.2.3\",\n    \"next\": \"2.0.0-beta.1\",\n    \"beta\": \"2.0.0-beta.1\"\n  },\n  \"versions\": {\n    \"key_0\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"string\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"string\"\n      },\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ],\n      \"author\": \"string\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"string\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    },\n    \"key_1\": {\n      \"name\": \"my-package\",\n      \"version\": \"1.0.0\",\n      \"description\": \"string\",\n      \"main\": \"index.js\",\n      \"scripts\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ],\n      \"author\": \"string\",\n      \"license\": \"MIT\",\n      \"dependencies\": {\n        \"key_0\": \"string\"\n      },\n      \"devDependencies\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"peerDependencies\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"dist\": {\n        \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n        \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n        \"integrity\": \"sha512-abc123==\"\n      },\n      \"_id\": \"my-package@1.0.0\",\n      \"_nodeVersion\": \"20.11.0\",\n      \"_npmVersion\": \"10.2.4\"\n    }\n  },\n  \"time\": {\n    \"key_0\": \"1960-02-02T19:35:13.814Z\"\n  },\n  \"readme\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89796f02-8756-4550-b257-caec68611987",
+              "name": "Authenticated user lacks permission for this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "write",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be498cb0-5ace-4187-a067-d83b7aba5d99",
+              "name": "Package or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "write",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a720c74b-4b38-4dce-9b3b-7b146a09549e",
+          "name": "Get a specific package version",
+          "request": {
+            "name": "Get a specific package version",
+            "description": {
+              "content": "Returns the package manifest for a specific version.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":package",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "package",
+                  "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "version",
+                  "description": "(Required) Exact version or dist-tag (e.g. `1.0.0`, `latest`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f65ac73a-4aa6-4b13-bf1e-a78a4d0923fb",
+              "name": "Package version manifest",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) Exact version or dist-tag (e.g. `1.0.0`, `latest`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"my-package\",\n  \"version\": \"1.0.0\",\n  \"description\": \"string\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"keywords\": [\n    \"string\",\n    \"string\"\n  ],\n  \"author\": \"string\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"devDependencies\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"peerDependencies\": {\n    \"key_0\": \"string\"\n  },\n  \"dist\": {\n    \"tarball\": \"http://localhost:4873/my-package/-/my-package-1.0.0.tgz\",\n    \"shasum\": \"da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n    \"integrity\": \"sha512-abc123==\"\n  },\n  \"_id\": \"my-package@1.0.0\",\n  \"_nodeVersion\": \"20.11.0\",\n  \"_npmVersion\": \"10.2.4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84959425-1a78-4ab3-a947-c643fd1f5352",
+              "name": "Authenticated user lacks permission for this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) Exact version or dist-tag (e.g. `1.0.0`, `latest`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "227982a7-a6fb-488b-b168-bbf57246d075",
+              "name": "Package or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) Exact version or dist-tag (e.g. `1.0.0`, `latest`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9bb96f42-3a53-4435-926c-260eef3849a4",
+          "name": "Download a package tarball",
+          "request": {
+            "name": "Download a package tarball",
+            "description": {
+              "content": "Streams the binary tarball for the specified package and filename.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":package",
+                "-",
+                ":filename"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "package",
+                  "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "filename",
+                  "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b104878a-db7b-4fb7-9774-c4f165187cf2",
+              "name": "Tarball binary stream",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-",
+                    ":filename"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "29ddeb25-c3d6-4153-a38b-cbd40d16c073",
+              "name": "Authenticated user lacks permission for this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-",
+                    ":filename"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99c871c1-0e2d-4b73-b938-0623c67d203a",
+              "name": "Package or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":package",
+                    "-",
+                    ":filename"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "package",
+                      "description": "(Required) Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) Tarball filename (e.g. `package-1.0.0.tgz`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"package not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:4873",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d0c5888c-8634-44c1-957d-9b56e072fa89",
+    "name": "Verdaccio npm Registry dist-tags packages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.\n\n\nContact Support:\n Name: Verdaccio Community",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Verdaccio npm Registry dist-tags packages API",
+    "version": "6.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "packages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get package manifest (all versions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/:package",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+              },
+              {
+                "name": "write",
+                "value": "",
+                "type": "query",
+                "description": "When true, returns the manifest for write operations (e.g. unpublish)"
+              }
+            ]
+          },
+          "docs": "Returns the full package manifest including metadata for all published versions, dist-tags, and distribution information. Supports the abbreviated manifest format via Accept header (`application/vnd.npm.install-v1+json`).\n"
+        },
+        {
+          "info": {
+            "name": "Get a specific package version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/:package/:version",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+              },
+              {
+                "name": "version",
+                "value": "1.0.0",
+                "type": "path",
+                "description": "Exact version or dist-tag (e.g. `1.0.0`, `latest`)"
+              }
+            ]
+          },
+          "docs": "Returns the package manifest for a specific version."
+        },
+        {
+          "info": {
+            "name": "Download a package tarball",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4873/:package/-/:filename",
+            "params": [
+              {
+                "name": "package",
+                "value": "lodash",
+                "type": "path",
+                "description": "Package name (may be scoped, e.g. `@scope%2Fpackage`)"
+              },
+              {
+                "name": "filename",
+                "value": "my-package-1.0.0.tgz",
+                "type": "path",
+                "description": "Tarball filename (e.g. `package-1.0.0.tgz`)"
+              }
+            ]
+          },
+          "docs": "Streams the binary tarball for the specified package and filename."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
