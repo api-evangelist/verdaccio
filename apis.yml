@@ -22,6 +22,19 @@ modified: 2026-06-13
 specificationVersion: '0.23'
 tags:
   - npm
+  - Registry
+  - Package Manager
+  - private-registry
+  - Proxy
+  - Node.js
+  - Open-Source
+  - Self-Hosted
+  - YARN
+  - pnpm
+  - Docker
+  - Kubernetes
+tags_raw:
+  - npm
   - registry
   - package-manager
   - private-registry
@@ -44,6 +57,13 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - npm
+  - Packages
+  - Registry
+  - Publish
+  - Search
+  - Proxy
+  tags_raw:
   - npm
   - packages
   - registry
@@ -82,6 +102,8 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - Packages
+  tags_raw:
   - packages
   properties:
   - type: OpenAPI
@@ -92,6 +114,8 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - Profile
+  tags_raw:
   - profile
   properties:
   - type: OpenAPI
@@ -102,6 +126,8 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - Publish
+  tags_raw:
   - publish
   properties:
   - type: OpenAPI
@@ -112,6 +138,8 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -122,6 +150,8 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - Tokens
+  tags_raw:
   - tokens
   properties:
   - type: OpenAPI
@@ -132,6 +162,8 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
@@ -142,6 +174,8 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
+  - Utility
+  tags_raw:
   - utility
   properties:
   - type: OpenAPI
