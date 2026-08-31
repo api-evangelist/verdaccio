@@ -39,16 +39,16 @@ specificationVersion: '0.23'
 tags:
   - npm
   - Registry
-  - Package Manager
+  - package-manager
   - private-registry
   - Proxy
-  - Node.js
+  - nodejs
   - Open-Source
-  - Self-Hosted
-  - YARN
+  - self-hosted
+  - yarn
   - pnpm
-  - Docker
-  - Kubernetes
+  - docker
+  - kubernetes
 tags_raw:
   - npm
   - registry
@@ -76,7 +76,7 @@ apis:
   - npm
   - Packages
   - Registry
-  - Publish
+  - publish
   - Search
   - Proxy
   tags_raw:
@@ -142,7 +142,7 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
-  - Publish
+  - publish
   tags_raw:
   - publish
   properties:
