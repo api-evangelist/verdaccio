@@ -130,7 +130,7 @@ apis:
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
   tags:
-  - Profile
+  - Profiles
   tags_raw:
   - profile
   properties:
