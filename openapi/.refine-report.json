@@ -1,14 +1,7 @@
 {
   "provider": "verdaccio",
   "sources": [
-    "verdaccio-dist-tags-api-openapi.yml",
-    "verdaccio-packages-api-openapi.yml",
-    "verdaccio-profile-api-openapi.yml",
-    "verdaccio-publish-api-openapi.yml",
-    "verdaccio-search-api-openapi.yml",
-    "verdaccio-tokens-api-openapi.yml",
-    "verdaccio-user-api-openapi.yml",
-    "verdaccio-utility-api-openapi.yml"
+    "_original/verdaccio-npm-registry-api-openapi.yml"
   ],
   "outputs": [
     "verdaccio-dist-tags-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "verdaccio-npm-registry-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "verdaccio-dist-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "verdaccio-packages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "verdaccio-profile-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "verdaccio-publish-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "verdaccio-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "verdaccio-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "verdaccio-user-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "verdaccio-utility-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

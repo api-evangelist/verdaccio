@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Verdaccio npm Registry dist-tags user API
-  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
-
-    '
+  title: Verdaccio npm Registry User API
+  description: The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
   version: 6.0.0
   contact:
     name: Verdaccio Community
@@ -19,7 +17,7 @@ security:
 - bearerAuth: []
 - basicAuth: []
 tags:
-- name: user
+- name: User
   description: User authentication and management
 paths:
   /-/whoami:
@@ -28,7 +26,7 @@ paths:
       summary: Get current authenticated user name
       description: Returns the username of the currently authenticated user. Equivalent to `npm whoami`.
       tags:
-      - user
+      - User
       responses:
         '200':
           description: Username of the authenticated user
@@ -44,7 +42,7 @@ paths:
       summary: Get user information
       description: Returns authenticated user information. Used by npm to verify login status.
       tags:
-      - user
+      - User
       parameters:
       - $ref: '#/components/parameters/OrgCouchdbUser'
       responses:
@@ -59,11 +57,9 @@ paths:
     put:
       operationId: addOrLoginUser
       summary: Add a new user or log in an existing user
-      description: 'Creates a new user account or authenticates an existing user. This is the endpoint used by `npm login` / `npm adduser`. Returns a JWT or Basic Auth token on success.
-
-        '
+      description: Creates a new user account or authenticates an existing user. This is the endpoint used by `npm login` / `npm adduser`. Returns a JWT or Basic Auth token on success.
       tags:
-      - user
+      - User
       parameters:
       - $ref: '#/components/parameters/OrgCouchdbUser'
       requestBody:
@@ -89,11 +85,9 @@ paths:
     post:
       operationId: initiateLogin
       summary: Initiate web login flow
-      description: 'Starts the web-based login flow. Available only when the `webLogin` feature flag is enabled. Returns a login URL and session token.
-
-        '
+      description: Starts the web-based login flow. Available only when the `webLogin` feature flag is enabled. Returns a login URL and session token.
       tags:
-      - user
+      - User
       security: []
       responses:
         '200':
@@ -108,7 +102,7 @@ paths:
       summary: Poll web login session status
       description: Polls the status of a web login session by session ID.
       tags:
-      - user
+      - User
       security: []
       parameters:
       - name: sessionId
@@ -129,7 +123,7 @@ paths:
       summary: Complete web login flow
       description: Finalizes the web login and issues an authentication token.
       tags:
-      - user
+      - User
       responses:
         '200':
           description: Authentication completed
@@ -143,7 +137,7 @@ paths:
       summary: Complete web login flow for a specific session
       description: Finalizes the web login for a specific session ID.
       tags:
-      - user
+      - User
       parameters:
       - name: sessionId
         in: path
@@ -158,29 +152,29 @@ paths:
               schema:
                 type: object
 components:
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    OrgCouchdbUser:
+      name: org_couchdb_user
+      in: path
+      required: true
+      schema:
+        type: string
+      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
+      example: org.couchdb.user:alice
   schemas:
-    UserLoginResponse:
-      type: object
-      properties:
-        ok:
-          type: string
-          example: user 'alice' created
-        token:
-          type: string
-          description: JWT or Basic Auth token to use in subsequent requests
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-      required:
-      - ok
-      - token
-    WhoamiResponse:
-      type: object
-      properties:
-        username:
-          type: string
-          description: Username of the authenticated user
-          example: alice
-      required:
-      - username
     UserResponse:
       type: object
       properties:
@@ -199,15 +193,19 @@ components:
           - type: boolean
           description: Authentication status message or boolean
           example: you are authenticated as 'alice'
-    ErrorResponse:
+    UserLoginResponse:
       type: object
       properties:
-        error:
+        ok:
           type: string
-          description: Human-readable error message
-          example: package not found
+          example: user 'alice' created
+        token:
+          type: string
+          description: JWT or Basic Auth token to use in subsequent requests
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
       required:
-      - error
+      - ok
+      - token
     UserLoginRequest:
       type: object
       properties:
@@ -254,28 +252,24 @@ components:
           format: uri
           description: URL to poll for login completion
           example: http://localhost:4873/-/v1/done/abc123
-  parameters:
-    OrgCouchdbUser:
-      name: org_couchdb_user
-      in: path
-      required: true
-      schema:
-        type: string
-      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
-      example: org.couchdb.user:alice
-  responses:
-    Unauthorized:
-      description: Authentication required or credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    WhoamiResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of the authenticated user
+          example: alice
+      required:
+      - username
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
   securitySchemes:
     bearerAuth:
       type: http

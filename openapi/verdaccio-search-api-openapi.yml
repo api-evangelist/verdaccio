@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Verdaccio npm Registry dist-tags search API
-  description: 'The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
-
-    '
+  title: Verdaccio npm Registry Search API
+  description: The Verdaccio npm Registry REST API implements the CommonJS Compliant Package Registry specification, providing endpoints to publish, retrieve, search, and delete npm packages. It supports JWT tokens and Basic Auth for authentication and mirrors the standard npm registry protocol so any npm, yarn, or pnpm client can interact with it without modification.
   version: 6.0.0
   contact:
     name: Verdaccio Community
@@ -19,18 +17,16 @@ security:
 - bearerAuth: []
 - basicAuth: []
 tags:
-- name: search
+- name: Search
   description: Search the registry
 paths:
   /-/v1/search:
     get:
       operationId: searchPackages
       summary: Search packages (v1)
-      description: 'Searches the registry using the npm v1 search API. Supports text queries with quality, popularity, and maintenance score weighting.
-
-        '
+      description: Searches the registry using the npm v1 search API. Supports text queries with quality, popularity, and maintenance score weighting.
       tags:
-      - search
+      - Search
       security: []
       parameters:
       - name: text
