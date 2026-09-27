@@ -43,7 +43,7 @@ tags:
   - private-registry
   - Proxy
   - Node.js
-  - Open-Source
+  - Open Source
   - Self-Hosted
   - YARN
   - pnpm
@@ -62,6 +62,7 @@ tags_raw:
   - pnpm
   - docker
   - kubernetes
+  - Open-Source
 apis:
 - aid: verdaccio:verdaccio-npm-registry-api
   name: Verdaccio npm Registry API
@@ -103,7 +104,7 @@ apis:
   - FN: Verdaccio Community
     url: https://discord.gg/7qWJxBf
 - aid: verdaccio:verdaccio-dist-tags-api
-  name: Verdaccio dist-tags API
+  name: Verdaccio Dist Tags API
   description: Manage dist-tags for packages
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
@@ -113,7 +114,7 @@ apis:
   - type: OpenAPI
     url: openapi/verdaccio-dist-tags-api-openapi.yml
 - aid: verdaccio:verdaccio-packages-api
-  name: Verdaccio packages API
+  name: Verdaccio Packages API
   description: Retrieve package metadata and tarballs
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
@@ -125,7 +126,7 @@ apis:
   - type: OpenAPI
     url: openapi/verdaccio-packages-api-openapi.yml
 - aid: verdaccio:verdaccio-profile-api
-  name: Verdaccio profile API
+  name: Verdaccio Profile API
   description: User profile management
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
@@ -137,7 +138,7 @@ apis:
   - type: OpenAPI
     url: openapi/verdaccio-profile-api-openapi.yml
 - aid: verdaccio:verdaccio-publish-api
-  name: Verdaccio publish API
+  name: Verdaccio Publish API
   description: Publish, update, and unpublish packages
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
@@ -149,7 +150,7 @@ apis:
   - type: OpenAPI
     url: openapi/verdaccio-publish-api-openapi.yml
 - aid: verdaccio:verdaccio-search-api
-  name: Verdaccio search API
+  name: Verdaccio Search API
   description: Search the registry
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
@@ -161,7 +162,7 @@ apis:
   - type: OpenAPI
     url: openapi/verdaccio-search-api-openapi.yml
 - aid: verdaccio:verdaccio-tokens-api
-  name: Verdaccio tokens API
+  name: Verdaccio Tokens API
   description: API token management
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
@@ -173,7 +174,7 @@ apis:
   - type: OpenAPI
     url: openapi/verdaccio-tokens-api-openapi.yml
 - aid: verdaccio:verdaccio-user-api
-  name: Verdaccio user API
+  name: Verdaccio User API
   description: User authentication and management
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873
@@ -185,7 +186,7 @@ apis:
   - type: OpenAPI
     url: openapi/verdaccio-user-api-openapi.yml
 - aid: verdaccio:verdaccio-utility-api
-  name: Verdaccio utility API
+  name: Verdaccio Utility API
   description: Utility endpoints
   humanURL: https://www.verdaccio.org/docs/
   baseURL: http://localhost:4873

@@ -191,6 +191,46 @@ components:
         _npmVersion:
           type: string
           example: 10.2.4
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          description: Human-readable success message
+          example: package published
+      required:
+      - ok
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: 1.2.3
+        next: 2.0.0-beta.1
+        beta: 2.0.0-beta.1
+    PackageAttachment:
+      type: object
+      properties:
+        content_type:
+          type: string
+          example: application/octet-stream
+        data:
+          type: string
+          format: byte
+          description: Base64-encoded tarball content
+        length:
+          type: integer
+          description: Byte length of the unencoded tarball
     PublishRequest:
       type: object
       description: Package manifest payload used for publish and revision update operations
@@ -220,49 +260,9 @@ components:
       required:
       - name
       - versions
-    PackageAttachment:
-      type: object
-      properties:
-        content_type:
-          type: string
-          example: application/octet-stream
-        data:
-          type: string
-          format: byte
-          description: Base64-encoded tarball content
-        length:
-          type: integer
-          description: Byte length of the unencoded tarball
-    DistTagsMap:
-      type: object
-      additionalProperties:
-        type: string
-      description: Map of dist-tag names to version strings
-      example:
-        latest: 1.2.3
-        next: 2.0.0-beta.1
-        beta: 2.0.0-beta.1
-    OkResponse:
-      type: object
-      properties:
-        ok:
-          type: string
-          description: Human-readable success message
-          example: package published
-      required:
-      - ok
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
   responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
+    NotFound:
+      description: Package or resource not found
       content:
         application/json:
           schema:
@@ -279,8 +279,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Package or resource not found
+    BadRequest:
+      description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:

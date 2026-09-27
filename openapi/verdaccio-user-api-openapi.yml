@@ -152,47 +152,29 @@ paths:
               schema:
                 type: object
 components:
-  responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    OrgCouchdbUser:
-      name: org_couchdb_user
-      in: path
-      required: true
-      schema:
-        type: string
-      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
-      example: org.couchdb.user:alice
   schemas:
-    UserResponse:
+    LoginInitiateResponse:
       type: object
       properties:
-        name:
+        loginUrl:
           type: string
-          description: Username
-          example: alice
-        email:
+          format: uri
+          description: URL the user should open in a browser to authenticate
+          example: http://localhost:4873/-/v1/login_cli/abc123
+        doneUrl:
           type: string
-          format: email
-          description: Email address (may be empty)
-          example: ''
-        ok:
-          oneOf:
-          - type: string
-          - type: boolean
-          description: Authentication status message or boolean
-          example: you are authenticated as 'alice'
+          format: uri
+          description: URL to poll for login completion
+          example: http://localhost:4873/-/v1/done/abc123
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
     UserLoginResponse:
       type: object
       properties:
@@ -239,19 +221,24 @@ components:
       required:
       - name
       - password
-    LoginInitiateResponse:
+    UserResponse:
       type: object
       properties:
-        loginUrl:
+        name:
           type: string
-          format: uri
-          description: URL the user should open in a browser to authenticate
-          example: http://localhost:4873/-/v1/login_cli/abc123
-        doneUrl:
+          description: Username
+          example: alice
+        email:
           type: string
-          format: uri
-          description: URL to poll for login completion
-          example: http://localhost:4873/-/v1/done/abc123
+          format: email
+          description: Email address (may be empty)
+          example: ''
+        ok:
+          oneOf:
+          - type: string
+          - type: boolean
+          description: Authentication status message or boolean
+          example: you are authenticated as 'alice'
     WhoamiResponse:
       type: object
       properties:
@@ -261,15 +248,28 @@ components:
           example: alice
       required:
       - username
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    OrgCouchdbUser:
+      name: org_couchdb_user
+      in: path
+      required: true
+      schema:
+        type: string
+      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
+      example: org.couchdb.user:alice
   securitySchemes:
     bearerAuth:
       type: http

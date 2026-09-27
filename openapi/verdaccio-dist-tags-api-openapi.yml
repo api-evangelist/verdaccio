@@ -122,8 +122,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
+    NotFound:
+      description: Package or resource not found
       content:
         application/json:
           schema:
@@ -140,29 +140,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Package or resource not found
+    BadRequest:
+      description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    TagName:
-      name: tag
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Dist-tag name (e.g. `latest`, `next`, `beta`)
-      example: latest
-    PackagePathParam:
-      name: package
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Package name (may be scoped)
-      example: lodash
     PackageName:
       name: package
       in: path
@@ -171,25 +155,23 @@ components:
         type: string
       description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
       example: lodash
-  schemas:
-    DistTagsMap:
-      type: object
-      additionalProperties:
+    PackagePathParam:
+      name: package
+      in: path
+      required: true
+      schema:
         type: string
-      description: Map of dist-tag names to version strings
-      example:
-        latest: 1.2.3
-        next: 2.0.0-beta.1
-        beta: 2.0.0-beta.1
-    OkResponse:
-      type: object
-      properties:
-        ok:
-          type: string
-          description: Human-readable success message
-          example: package published
-      required:
-      - ok
+      description: Package name (may be scoped)
+      example: lodash
+    TagName:
+      name: tag
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Dist-tag name (e.g. `latest`, `next`, `beta`)
+      example: latest
+  schemas:
     ErrorResponse:
       type: object
       properties:
@@ -199,6 +181,24 @@ components:
           example: package not found
       required:
       - error
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          description: Human-readable success message
+          example: package published
+      required:
+      - ok
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: 1.2.3
+        next: 2.0.0-beta.1
+        beta: 2.0.0-beta.1
   securitySchemes:
     bearerAuth:
       type: http

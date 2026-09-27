@@ -208,24 +208,6 @@ components:
         readme:
           type: string
           description: Package README content
-    DistTagsMap:
-      type: object
-      additionalProperties:
-        type: string
-      description: Map of dist-tag names to version strings
-      example:
-        latest: 1.2.3
-        next: 2.0.0-beta.1
-        beta: 2.0.0-beta.1
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
     AbbreviatedManifest:
       type: object
       description: Abbreviated package manifest (install-optimised format)
@@ -243,6 +225,37 @@ components:
         modified:
           type: string
           format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: 1.2.3
+        next: 2.0.0-beta.1
+        beta: 2.0.0-beta.1
+  responses:
+    NotFound:
+      description: Package or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     PackageName:
       name: package
@@ -252,19 +265,6 @@ components:
         type: string
       description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
       example: lodash
-  responses:
-    Forbidden:
-      description: Authenticated user lacks permission for this operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Package or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

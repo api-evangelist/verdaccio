@@ -62,26 +62,16 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
-  responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Authenticated user lacks permission for this operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
     ProfileUpdateRequest:
       type: object
       properties:
@@ -136,15 +126,25 @@ components:
           type: string
           description: Full name (not stored; always empty)
           example: ''
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
+  responses:
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http
