@@ -116,7 +116,61 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Package or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    PublishRequest:
+      type: object
+      description: Package manifest payload used for publish and revision update operations
+      properties:
+        _id:
+          type: string
+          description: Package name used as document ID
+          example: my-package
+        name:
+          type: string
+          description: Package name
+          example: my-package
+        description:
+          type: string
+          description: Package description
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VersionManifest'
+        _attachments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PackageAttachment'
+          description: Tarball attachments keyed by filename
+      required:
+      - name
+      - versions
     VersionManifest:
       type: object
       description: Metadata for a single package version
@@ -191,15 +245,6 @@ components:
         _npmVersion:
           type: string
           example: 10.2.4
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
     OkResponse:
       type: object
       properties:
@@ -218,6 +263,15 @@ components:
         latest: 1.2.3
         next: 2.0.0-beta.1
         beta: 2.0.0-beta.1
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
     PackageAttachment:
       type: object
       properties:
@@ -231,60 +285,6 @@ components:
         length:
           type: integer
           description: Byte length of the unencoded tarball
-    PublishRequest:
-      type: object
-      description: Package manifest payload used for publish and revision update operations
-      properties:
-        _id:
-          type: string
-          description: Package name used as document ID
-          example: my-package
-        name:
-          type: string
-          description: Package name
-          example: my-package
-        description:
-          type: string
-          description: Package description
-        dist-tags:
-          $ref: '#/components/schemas/DistTagsMap'
-        versions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/VersionManifest'
-        _attachments:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/PackageAttachment'
-          description: Tarball attachments keyed by filename
-      required:
-      - name
-      - versions
-  responses:
-    NotFound:
-      description: Package or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Authenticated user lacks permission for this operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     PackageName:
       name: package

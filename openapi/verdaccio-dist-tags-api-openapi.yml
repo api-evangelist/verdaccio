@@ -134,35 +134,19 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     BadRequest:
       description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    PackageName:
-      name: package
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
-      example: lodash
-    PackagePathParam:
-      name: package
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Package name (may be scoped)
-      example: lodash
     TagName:
       name: tag
       in: path
@@ -171,16 +155,23 @@ components:
         type: string
       description: Dist-tag name (e.g. `latest`, `next`, `beta`)
       example: latest
+    PackagePathParam:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped)
+      example: lodash
+    PackageName:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
+      example: lodash
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
     OkResponse:
       type: object
       properties:
@@ -190,6 +181,15 @@ components:
           example: package published
       required:
       - ok
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
     DistTagsMap:
       type: object
       additionalProperties:

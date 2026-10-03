@@ -62,31 +62,26 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  responses:
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
-    ProfileUpdateRequest:
-      type: object
-      properties:
-        password:
-          type: object
-          description: Password change payload
-          properties:
-            old:
-              type: string
-              format: password
-              description: Current password
-            new:
-              type: string
-              format: password
-              description: Desired new password
     Profile:
       type: object
       properties:
@@ -126,25 +121,30 @@ components:
           type: string
           description: Full name (not stored; always empty)
           example: ''
-  responses:
-    Forbidden:
-      description: Authenticated user lacks permission for this operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        password:
+          type: object
+          description: Password change payload
+          properties:
+            old:
+              type: string
+              format: password
+              description: Current password
+            new:
+              type: string
+              format: password
+              description: Desired new password
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
   securitySchemes:
     bearerAuth:
       type: http

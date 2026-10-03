@@ -80,25 +80,6 @@ paths:
                 $ref: '#/components/schemas/SearchResults'
 components:
   schemas:
-    SearchResults:
-      type: object
-      properties:
-        objects:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchResultItem'
-        total:
-          type: integer
-          description: Total number of results
-          example: 42
-        time:
-          type: string
-          description: UTC timestamp of the search
-          example: Sun Jul 25 2021 14:09:11 GMT+0000 (Coordinated Universal Time)
-      required:
-      - objects
-      - total
-      - time
     SearchResultPackage:
       type: object
       properties:
@@ -170,6 +151,25 @@ components:
         searchScore:
           type: number
           format: float
+    SearchResults:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResultItem'
+        total:
+          type: integer
+          description: Total number of results
+          example: 42
+        time:
+          type: string
+          description: UTC timestamp of the search
+          example: Sun Jul 25 2021 14:09:11 GMT+0000 (Coordinated Universal Time)
+      required:
+      - objects
+      - total
+      - time
   securitySchemes:
     bearerAuth:
       type: http
