@@ -63,8 +63,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   responses:
-    Forbidden:
-      description: Authenticated user lacks permission for this operation
+    Unauthorized:
+      description: Authentication required or credentials are invalid
       content:
         application/json:
           schema:
@@ -75,8 +75,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
       content:
         application/json:
           schema:
@@ -121,6 +121,15 @@ components:
           type: string
           description: Full name (not stored; always empty)
           example: ''
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
     ProfileUpdateRequest:
       type: object
       properties:
@@ -136,15 +145,6 @@ components:
               type: string
               format: password
               description: Desired new password
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
   securitySchemes:
     bearerAuth:
       type: http

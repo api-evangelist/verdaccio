@@ -89,20 +89,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
-    TokenListResponse:
-      type: object
-      properties:
-        objects:
-          type: array
-          items:
-            $ref: '#/components/schemas/TokenObject'
-        urls:
-          type: object
-          properties:
-            next:
-              type: string
-              description: URL for next page (pagination not yet implemented; always empty)
-              example: ''
     TokenCreateRequest:
       type: object
       properties:
@@ -125,6 +111,20 @@ components:
       - password
       - readonly
       - cidr_whitelist
+    TokenListResponse:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenObject'
+        urls:
+          type: object
+          properties:
+            next:
+              type: string
+              description: URL for next page (pagination not yet implemented; always empty)
+              example: ''
     TokenObject:
       type: object
       properties:
@@ -171,8 +171,8 @@ components:
       required:
       - error
   responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
+    Unauthorized:
+      description: Authentication required or credentials are invalid
       content:
         application/json:
           schema:
@@ -183,8 +183,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
+    BadRequest:
+      description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:

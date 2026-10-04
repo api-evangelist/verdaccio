@@ -121,15 +121,62 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  parameters:
+    PackageName:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
+      example: lodash
+    PackagePathParam:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped)
+      example: lodash
+    TagName:
+      name: tag
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Dist-tag name (e.g. `latest`, `next`, `beta`)
+      example: latest
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          description: Human-readable success message
+          example: package published
+      required:
+      - ok
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: 1.2.3
+        next: 2.0.0-beta.1
+        beta: 2.0.0-beta.1
   responses:
-    NotFound:
-      description: Package or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Authenticated user lacks permission for this operation
+    Unauthorized:
+      description: Authentication required or credentials are invalid
       content:
         application/json:
           schema:
@@ -140,65 +187,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required or credentials are invalid
+    Forbidden:
+      description: Authenticated user lacks permission for this operation
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    TagName:
-      name: tag
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Dist-tag name (e.g. `latest`, `next`, `beta`)
-      example: latest
-    PackagePathParam:
-      name: package
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Package name (may be scoped)
-      example: lodash
-    PackageName:
-      name: package
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
-      example: lodash
-  schemas:
-    OkResponse:
-      type: object
-      properties:
-        ok:
-          type: string
-          description: Human-readable success message
-          example: package published
-      required:
-      - ok
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
-    DistTagsMap:
-      type: object
-      additionalProperties:
-        type: string
-      description: Map of dist-tag names to version strings
-      example:
-        latest: 1.2.3
-        next: 2.0.0-beta.1
-        beta: 2.0.0-beta.1
+    NotFound:
+      description: Package or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

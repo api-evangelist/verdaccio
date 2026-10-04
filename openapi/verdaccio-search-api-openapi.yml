@@ -80,6 +80,32 @@ paths:
                 $ref: '#/components/schemas/SearchResults'
 components:
   schemas:
+    SearchResultItem:
+      type: object
+      properties:
+        package:
+          $ref: '#/components/schemas/SearchResultPackage'
+        score:
+          type: object
+          properties:
+            final:
+              type: number
+              format: float
+            detail:
+              type: object
+              properties:
+                quality:
+                  type: number
+                  format: float
+                popularity:
+                  type: number
+                  format: float
+                maintenance:
+                  type: number
+                  format: float
+        searchScore:
+          type: number
+          format: float
     SearchResultPackage:
       type: object
       properties:
@@ -125,32 +151,6 @@ components:
               type: string
             bugs:
               type: string
-    SearchResultItem:
-      type: object
-      properties:
-        package:
-          $ref: '#/components/schemas/SearchResultPackage'
-        score:
-          type: object
-          properties:
-            final:
-              type: number
-              format: float
-            detail:
-              type: object
-              properties:
-                quality:
-                  type: number
-                  format: float
-                popularity:
-                  type: number
-                  format: float
-                maintenance:
-                  type: number
-                  format: float
-        searchScore:
-          type: number
-          format: float
     SearchResults:
       type: object
       properties:
