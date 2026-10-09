@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: Verdaccio Rate Limits
 description: Verdaccio implements rate limiting via the express-rate-limit middleware. Since Verdaccio is self-hosted open-source software, these defaults are configurable by each operator. The limits described here reflect the out-of-the-box defaults shipped with Verdaccio v5.4.0 and later. There are no externally-imposed cloud-level quotas because Verdaccio has no SaaS offering.
 specificationVersion: '0.1'
@@ -18,7 +22,7 @@ rateLimits:
       - /-/npm/v1/user
       - /-/npm/v1/tokens
       - /-/npm/v1/tokens/token/:tokenKey
-    notes: Configurable via the userRateLimit block in config.yaml. Set max: -1 to disable.
+    notes: 'Configurable via the userRateLimit block in config.yaml. Set max: -1 to disable.'
   - name: Web UI Endpoint Rate Limit
     description: Rate limiting can also be applied to the web UI endpoints to protect the search and package browsing interfaces. This is an operator-configured option and not enabled by default.
     scope: Per IP address

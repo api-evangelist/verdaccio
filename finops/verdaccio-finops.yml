@@ -1,3 +1,11 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+# Coverage demoted 2026-10-07 (roadmap#942, PLAN.md Stage A): this file was written by an API Evangelist
+# sweep and names no billing unit, meters or pricing category read from the provider — it restates the
+# FinOps framework. It is `x-coverage: unmeasured`, and the FOCUS alignment it claimed has been removed.
+x-coverage: unmeasured
+method: generated
 name: Verdaccio FinOps
 description: Verdaccio is open-source software with no licensing cost. All FinOps considerations relate to the infrastructure required to self-host it. Cost optimization focuses on right-sizing compute and storage, leveraging container orchestration for efficient resource use, and measuring the value of reduced upstream bandwidth through caching. This document applies the FinOps Framework 1.0 FOCUS-aligned principles to self-hosted Verdaccio deployments.
 specificationVersion: '1.0'

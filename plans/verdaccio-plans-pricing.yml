@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: Verdaccio Plans & Pricing
 description: Verdaccio is a fully open-source project released under the MIT license with no commercial pricing tiers or SaaS offering. The software is free to download, self-host, and use without restriction. Community sustainability is funded through voluntary donations and sponsorships via OpenCollective. Organizations wishing to use Verdaccio in production deploy it on their own infrastructure (bare metal, VMs, Docker, Kubernetes) and bear the cost of that infrastructure rather than paying Verdaccio directly.
 specificationVersion: '0.1'
@@ -26,3 +30,22 @@ plans:
     features:
       - Recognition on the Verdaccio OpenCollective sponsor page
       - Supporting continued open-source development
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Open Source (Self-Hosted)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Community Sponsor
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
