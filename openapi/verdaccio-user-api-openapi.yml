@@ -152,33 +152,16 @@ paths:
               schema:
                 type: object
 components:
-  responses:
-    Unauthorized:
-      description: Authentication required or credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    OrgCouchdbUser:
+      name: org_couchdb_user
+      in: path
+      required: true
+      schema:
+        type: string
+      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
+      example: org.couchdb.user:alice
   schemas:
-    UserLoginResponse:
-      type: object
-      properties:
-        ok:
-          type: string
-          example: user 'alice' created
-        token:
-          type: string
-          description: JWT or Basic Auth token to use in subsequent requests
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-      required:
-      - ok
-      - token
     UserResponse:
       type: object
       properties:
@@ -197,28 +180,15 @@ components:
           - type: boolean
           description: Authentication status message or boolean
           example: you are authenticated as 'alice'
-    WhoamiResponse:
+    ErrorResponse:
       type: object
       properties:
-        username:
+        error:
           type: string
-          description: Username of the authenticated user
-          example: alice
+          description: Human-readable error message
+          example: package not found
       required:
-      - username
-    LoginInitiateResponse:
-      type: object
-      properties:
-        loginUrl:
-          type: string
-          format: uri
-          description: URL the user should open in a browser to authenticate
-          example: http://localhost:4873/-/v1/login_cli/abc123
-        doneUrl:
-          type: string
-          format: uri
-          description: URL to poll for login completion
-          example: http://localhost:4873/-/v1/done/abc123
+      - error
     UserLoginRequest:
       type: object
       properties:
@@ -252,24 +222,54 @@ components:
       required:
       - name
       - password
-    ErrorResponse:
+    WhoamiResponse:
       type: object
       properties:
-        error:
+        username:
           type: string
-          description: Human-readable error message
-          example: package not found
+          description: Username of the authenticated user
+          example: alice
       required:
-      - error
-  parameters:
-    OrgCouchdbUser:
-      name: org_couchdb_user
-      in: path
-      required: true
-      schema:
-        type: string
-      description: CouchDB-style user identifier, e.g. `org.couchdb.user:alice`
-      example: org.couchdb.user:alice
+      - username
+    LoginInitiateResponse:
+      type: object
+      properties:
+        loginUrl:
+          type: string
+          format: uri
+          description: URL the user should open in a browser to authenticate
+          example: http://localhost:4873/-/v1/login_cli/abc123
+        doneUrl:
+          type: string
+          format: uri
+          description: URL to poll for login completion
+          example: http://localhost:4873/-/v1/done/abc123
+    UserLoginResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          example: user 'alice' created
+        token:
+          type: string
+          description: JWT or Basic Auth token to use in subsequent requests
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      required:
+      - ok
+      - token
+  responses:
+    Unauthorized:
+      description: Authentication required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

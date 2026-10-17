@@ -116,16 +116,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    PackageName:
-      name: package
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
-      example: lodash
   schemas:
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: 1.2.3
+        next: 2.0.0-beta.1
+        beta: 2.0.0-beta.1
     ErrorResponse:
       type: object
       properties:
@@ -135,6 +135,57 @@ components:
           example: package not found
       required:
       - error
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: string
+          description: Human-readable success message
+          example: package published
+      required:
+      - ok
+    PackageAttachment:
+      type: object
+      properties:
+        content_type:
+          type: string
+          example: application/octet-stream
+        data:
+          type: string
+          format: byte
+          description: Base64-encoded tarball content
+        length:
+          type: integer
+          description: Byte length of the unencoded tarball
+    PublishRequest:
+      type: object
+      description: Package manifest payload used for publish and revision update operations
+      properties:
+        _id:
+          type: string
+          description: Package name used as document ID
+          example: my-package
+        name:
+          type: string
+          description: Package name
+          example: my-package
+        description:
+          type: string
+          description: Package description
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VersionManifest'
+        _attachments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PackageAttachment'
+          description: Tarball attachments keyed by filename
+      required:
+      - name
+      - versions
     VersionManifest:
       type: object
       description: Metadata for a single package version
@@ -209,73 +260,7 @@ components:
         _npmVersion:
           type: string
           example: 10.2.4
-    OkResponse:
-      type: object
-      properties:
-        ok:
-          type: string
-          description: Human-readable success message
-          example: package published
-      required:
-      - ok
-    DistTagsMap:
-      type: object
-      additionalProperties:
-        type: string
-      description: Map of dist-tag names to version strings
-      example:
-        latest: 1.2.3
-        next: 2.0.0-beta.1
-        beta: 2.0.0-beta.1
-    PackageAttachment:
-      type: object
-      properties:
-        content_type:
-          type: string
-          example: application/octet-stream
-        data:
-          type: string
-          format: byte
-          description: Base64-encoded tarball content
-        length:
-          type: integer
-          description: Byte length of the unencoded tarball
-    PublishRequest:
-      type: object
-      description: Package manifest payload used for publish and revision update operations
-      properties:
-        _id:
-          type: string
-          description: Package name used as document ID
-          example: my-package
-        name:
-          type: string
-          description: Package name
-          example: my-package
-        description:
-          type: string
-          description: Package description
-        dist-tags:
-          $ref: '#/components/schemas/DistTagsMap'
-        versions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/VersionManifest'
-        _attachments:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/PackageAttachment'
-          description: Tarball attachments keyed by filename
-      required:
-      - name
-      - versions
   responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Forbidden:
       description: Authenticated user lacks permission for this operation
       content:
@@ -294,6 +279,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    PackageName:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
+      example: lodash
   securitySchemes:
     bearerAuth:
       type: http

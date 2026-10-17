@@ -106,6 +106,52 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    DistTagsMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: Map of dist-tag names to version strings
+      example:
+        latest: 1.2.3
+        next: 2.0.0-beta.1
+        beta: 2.0.0-beta.1
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: package not found
+      required:
+      - error
+    PackageManifest:
+      type: object
+      description: Full package manifest containing all versions and metadata
+      properties:
+        _id:
+          type: string
+          description: Package name
+          example: lodash
+        name:
+          type: string
+          example: lodash
+        description:
+          type: string
+        dist-tags:
+          $ref: '#/components/schemas/DistTagsMap'
+        versions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VersionManifest'
+        time:
+          type: object
+          additionalProperties:
+            type: string
+            format: date-time
+          description: Map of version to publish time
+        readme:
+          type: string
+          description: Package README content
     AbbreviatedManifest:
       type: object
       description: Abbreviated package manifest (install-optimised format)
@@ -123,15 +169,6 @@ components:
         modified:
           type: string
           format: date-time
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          example: package not found
-      required:
-      - error
     VersionManifest:
       type: object
       description: Metadata for a single package version
@@ -206,52 +243,6 @@ components:
         _npmVersion:
           type: string
           example: 10.2.4
-    PackageManifest:
-      type: object
-      description: Full package manifest containing all versions and metadata
-      properties:
-        _id:
-          type: string
-          description: Package name
-          example: lodash
-        name:
-          type: string
-          example: lodash
-        description:
-          type: string
-        dist-tags:
-          $ref: '#/components/schemas/DistTagsMap'
-        versions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/VersionManifest'
-        time:
-          type: object
-          additionalProperties:
-            type: string
-            format: date-time
-          description: Map of version to publish time
-        readme:
-          type: string
-          description: Package README content
-    DistTagsMap:
-      type: object
-      additionalProperties:
-        type: string
-      description: Map of dist-tag names to version strings
-      example:
-        latest: 1.2.3
-        next: 2.0.0-beta.1
-        beta: 2.0.0-beta.1
-  parameters:
-    PackageName:
-      name: package
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
-      example: lodash
   responses:
     Forbidden:
       description: Authenticated user lacks permission for this operation
@@ -265,6 +256,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    PackageName:
+      name: package
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Package name (may be scoped, e.g. `@scope%2Fpackage`)
+      example: lodash
   securitySchemes:
     bearerAuth:
       type: http

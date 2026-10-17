@@ -89,42 +89,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
-    TokenCreateRequest:
-      type: object
-      properties:
-        password:
-          type: string
-          format: password
-          description: User password for re-authentication before token creation
-          example: s3cr3t
-        readonly:
-          type: boolean
-          description: Whether the token should be read-only
-          example: false
-        cidr_whitelist:
-          type: array
-          items:
-            type: string
-          description: CIDR ranges to restrict token usage
-          example: []
-      required:
-      - password
-      - readonly
-      - cidr_whitelist
-    TokenListResponse:
-      type: object
-      properties:
-        objects:
-          type: array
-          items:
-            $ref: '#/components/schemas/TokenObject'
-        urls:
-          type: object
-          properties:
-            next:
-              type: string
-              description: URL for next page (pagination not yet implemented; always empty)
-              example: ''
     TokenObject:
       type: object
       properties:
@@ -170,6 +134,42 @@ components:
           example: package not found
       required:
       - error
+    TokenListResponse:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenObject'
+        urls:
+          type: object
+          properties:
+            next:
+              type: string
+              description: URL for next page (pagination not yet implemented; always empty)
+              example: ''
+    TokenCreateRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          description: User password for re-authentication before token creation
+          example: s3cr3t
+        readonly:
+          type: boolean
+          description: Whether the token should be read-only
+          example: false
+        cidr_whitelist:
+          type: array
+          items:
+            type: string
+          description: CIDR ranges to restrict token usage
+          example: []
+      required:
+      - password
+      - readonly
+      - cidr_whitelist
   responses:
     Unauthorized:
       description: Authentication required or credentials are invalid
@@ -177,14 +177,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    InternalError:
-      description: Internal server error
+    BadRequest:
+      description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
+    InternalError:
+      description: Internal server error
       content:
         application/json:
           schema:
